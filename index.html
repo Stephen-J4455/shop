@@ -1,0 +1,1444 @@
+<!doctype html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width,
+        initial-scale=1.0
+            ,user-scaleable=no"
+        />
+        <title>Empire Online Shopping</title>
+        <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-database.js"></script>
+        <!-- firestore -->
+        <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
+        <!-- firestore  end-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <link rel="stylesheet" href="register.css" />
+        <link rel="stylesheet" href="mode.css" />
+        <script src="firescript.js"></script>
+    </head>
+
+    <body onload="loadAllScript()">
+        <div class="my-body">
+            <div class="make-order">
+                <svg
+                    onclick="closeOrderPage()"
+                    viewBox="0 0 48 48"
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="1.5em"
+                    width="1.5em"
+                >
+                    <path
+                        fill="currentColor"
+                        d="m22.35 38.95-13.9-13.9q-.25-.25-.35-.5Q8 24.3 8 24q0-.3.1-.55.1-.25.35-.5L22.4 9q.4-.4 1-.4t1.05.45q.45.45.45 1.05 0 .6-.45 1.05L13.1 22.5h24.8q.65 0 1.075.425.425.425.425 1.075 0 .65-.425 1.075-.425.425-1.075.425H13.1l11.4 11.4q.4.4.4 1t-.45 1.05q-.45.45-1.05.45-.6 0-1.05-.45Z"
+                    />
+                </svg>
+                <div id="fees">
+                    <div class="number-of-items">
+                        Items Total:
+                        <ul id="itemPrice">
+                            0.00
+                        </ul>
+                    </div>
+
+                    <div class="delivery-fee-name">
+                        Delivery Fee:
+                        <ul id="deliveryPrice">
+                            Ghc 30.00
+                        </ul>
+                    </div>
+
+                    <div class="moq-fee">
+                        International Customs Fee:
+                        <ul id="moqPrice">
+                            Ghc 3.00
+                        </ul>
+                    </div>
+                </div>
+                <!-- payment method  -->
+                <div id="payment">
+                    <div class="method-box">
+                        <input
+                            class="pay-box"
+                            checked=""
+                            type="radio"
+                            id="mobileMoney"
+                            name="paymentMethod"
+                            value="Mobile Money"
+                        />
+                        <label for="mobileMoney">
+                            <svg
+                                viewBox="0 0 48 48"
+                                xmlns="http://www.w3.org/2000/svg"
+                                height="1.5em"
+                                width="1.5em"
+                            >
+                                <path
+                                    fill="currentColor"
+                                    d="M11 44q-1.2 0-2.1-.9Q8 42.2 8 41V15q0-1.2.9-2.1.9-.9 2.1-.9h5.5v-.5q0-3.15 2.175-5.325Q20.85 4 24 4q3.15 0 5.325 2.175Q31.5 8.35 31.5 11.5v.5H37q1.2 0 2.1.9.9.9.9 2.1v26q0 1.2-.9 2.1-.9.9-2.1.9Zm8.5-32.5v.5h9v-.5q0-1.9-1.3-3.2Q25.9 7 24 7q-1.9 0-3.2 1.3-1.3 1.3-1.3 3.2ZM11 41h26V15h-5.5v4.5q0 .65-.425 1.075Q30.65 21 30 21q-.65 0-1.075-.425-.425-.425-.425-1.075V15h-9v4.5q0 .65-.425 1.075Q18.65 21 18 21q-.65 0-1.075-.425-.425-.425-.425-1.075V15H11v26Zm0 0V15v26Z"
+                                /></svg
+                            >Mobile Money on delivery</label
+                        >
+                    </div>
+                    <div class="method-box">
+                        <input
+                            class="pay-box"
+                            type="radio"
+                            id="cash"
+                            name="paymentMethod"
+                            value="Cash"
+                        />
+                        <label for="cash"
+                            ><svg
+                                viewBox="0 0 48 48"
+                                xmlns="http://www.w3.org/2000/svg"
+                                height="1.5em"
+                                width="1.5em"
+                            >
+                                <path
+                                    fill="currentColor"
+                                    d="M11 44q-1.2 0-2.1-.9Q8 42.2 8 41V15q0-1.2.9-2.1.9-.9 2.1-.9h5.5v-.5q0-3.15 2.175-5.325Q20.85 4 24 4q3.15 0 5.325 2.175Q31.5 8.35 31.5 11.5v.5H37q1.2 0 2.1.9.9.9.9 2.1v26q0 1.2-.9 2.1-.9.9-2.1.9Zm8.5-32.5v.5h9v-.5q0-1.9-1.3-3.2Q25.9 7 24 7q-1.9 0-3.2 1.3-1.3 1.3-1.3 3.2ZM11 41h26V15h-5.5v4.5q0 .65-.425 1.075Q30.65 21 30 21q-.65 0-1.075-.425-.425-.425-.425-1.075V15h-9v4.5q0 .65-.425 1.075Q18.65 21 18 21q-.65 0-1.075-.425-.425-.425-.425-1.075V15H11v26Zm0 0V15v26Z"
+                                /></svg
+                            >Cash on delivery</label
+                        >
+                    </div>
+                </div>
+                <!-- Make order btn -->
+                <button onclick="shopMore()" class="add-more" type="submit">
+                    Shop For More
+                </button>
+                <button onclick="order()" class="make-order-btn" type="submit">
+                    Confirm Order
+                </button>
+            </div>
+            <!-- product page  -->
+            <div class="p-page">
+                <div onclick="closePPage()" class="close-p-page">
+                    <svg
+                        fill="currentColor"
+                        version="1.1"
+                        viewBox="144 144 512 512"
+                        xmlns="http://www.w3.org/2000/svg"
+                        stroke="#ffffff"
+                    >
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g
+                            id="SVGRepo_tracerCarrier"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        ></g>
+                        <g id="SVGRepo_iconCarrier">
+                            <path
+                                d="m466.79 400 180.5-180.51c6.1562-6.1562 6.1562-16.105 0-22.262l-44.523-44.523c-3.0703-3.0703-7.1016-4.6133-11.129-4.6133-4.0312 0-8.0625 1.543-11.133 4.6133l-180.5 180.5-180.51-180.5c-6.1562-6.1562-16.105-6.1562-22.262 0l-44.523 44.523c-3.0703 3.0703-4.6133 7.1016-4.6133 11.133 0 4.0273 1.543 8.0586 4.6133 11.129l180.5 180.51-180.5 180.5c-6.1562 6.1562-6.1562 16.105 0 22.262l44.523 44.523c3.0703 3.0703 7.1016 4.6133 11.133 4.6133s8.0625-1.543 11.133-4.6133l180.5-180.5 180.5 180.5c6.1562 6.1562 16.105 6.1562 22.262 0l44.523-44.523c3.0703-3.0703 4.6133-7.1016 4.6133-11.129 0-4.0312-1.543-8.0625-4.6133-11.133z"
+                            ></path>
+                        </g>
+                    </svg>
+                </div>
+
+                <!-- product information  -->
+                <div id="prodInf" class="product-info-page"></div>
+                <div class="product-page-delivery-box">
+                    <div class="delivery-fee">
+                        <svg
+                            height="60px"
+                            width="60px"
+                            fill="rgb(19,28,90)"
+                            version="1.1"
+                            viewBox="144 144 512 512"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g
+                                id="SVGRepo_tracerCarrier"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            ></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <g>
+                                    <path
+                                        d="m479.97 509.56h-184.08c-4.2422 0-7.6523-3.4102-7.6523-7.6523 0-4.2422 3.4102-7.6523 7.6523-7.6523h176.43v-220.43c0-6.3438-5.1328-11.48-11.48-11.48h-278.94c-6.3438 0-11.48 5.1328-11.48 11.48v208.95c0 6.3438 5.1328 11.48 11.48 11.48h27.199c4.2422 0 7.6523 3.4102 7.6523 7.6523 0 4.2422-3.4102 7.6523-7.6523 7.6523h-27.199c-14.762 0-26.785-12.02-26.785-26.785v-208.95c0-14.762 12.02-26.785 26.785-26.785h278.95c14.762 0 26.785 12.02 26.785 26.785v228.09c0 4.2383-3.4453 7.6523-7.6562 7.6523z"
+                                    ></path>
+                                    <path
+                                        d="m252.49 552.96c-28.156 0-51.051-22.895-51.051-51.051s22.895-51.051 51.051-51.051 51.051 22.895 51.051 51.051-22.895 51.051-51.051 51.051zm0-86.793c-19.707 0-35.746 16.039-35.746 35.746 0 19.707 16.039 35.746 35.746 35.746 19.707 0 35.746-16.039 35.746-35.746-0.003906-19.707-16.043-35.746-35.746-35.746z"
+                                    ></path>
+                                    <path
+                                        d="m252.49 524.16c-12.277 0-22.258-9.9805-22.258-22.258s9.9805-22.258 22.258-22.258c12.277 0 22.258 9.9805 22.258 22.258-0.003906 12.277-9.9844 22.258-22.258 22.258zm0-29.207c-3.8281 0-6.9531 3.125-6.9531 6.9531s3.125 6.9531 6.9531 6.9531c3.8281 0 6.9531-3.125 6.9531-6.9531-0.003906-3.8281-3.1289-6.9531-6.9531-6.9531z"
+                                    ></path>
+                                    <path
+                                        d="m219.36 481.5h-56.598c-4.2422 0-7.6523-3.4102-7.6523-7.6523 0-4.2422 3.4102-7.6523 7.6523-7.6523h56.598c4.2422 0 7.6523 3.4102 7.6523 7.6523 0 4.2422-3.4102 7.6523-7.6523 7.6523z"
+                                    ></path>
+                                    <path
+                                        d="m479.97 481.5h-194.38c-4.2422 0-7.6523-3.4102-7.6523-7.6523 0-4.2422 3.4102-7.6523 7.6523-7.6523h194.38c4.2422 0 7.6523 3.4102 7.6523 7.6523 0 4.2422-3.4453 7.6523-7.6562 7.6523z"
+                                    ></path>
+                                    <path
+                                        d="m618.1 509.56h-14.668c-4.2422 0-7.6523-3.4102-7.6523-7.6523 0-4.2422 3.4102-7.6523 7.6523-7.6523h14.668c6.3438 0 11.48-5.1328 11.48-11.48v-60.172c0-2.0391-0.54297-4.0195-1.5625-5.8047l-56.887-97.477c-2.0391-3.5078-5.8359-5.707-9.918-5.707h-73.625v180.61h29.016c4.2422 0 7.6523 3.4102 7.6523 7.6523s-3.4102 7.6523-7.6523 7.6523h-36.668c-4.2422 0-7.6523-3.4102-7.6523-7.6523v-195.88c0-4.2422 3.4102-7.6523 7.6523-7.6523h81.277c9.5039 0 18.367 5.1016 23.148 13.297l56.887 97.477c2.3906 4.1133 3.6367 8.7695 3.6367 13.488v60.172c0 14.762-12.02 26.785-26.785 26.785z"
+                                    ></path>
+                                    <path
+                                        d="m604.65 425.09h-95.918c-4.2422 0-7.6523-3.4102-7.6523-7.6523v-81.855c0-4.2422 3.4102-7.6523 7.6523-7.6523h48.883c2.7422 0 5.2617 1.4648 6.6328 3.8281l47 81.852c1.3711 2.3594 1.3398 5.293 0 7.6523-1.3711 2.3594-3.8867 3.8281-6.5977 3.8281zm-88.262-15.305h75.031l-38.203-66.551h-36.828z"
+                                    ></path>
+                                    <path
+                                        d="m560.04 552.96c-28.156 0-51.051-22.895-51.051-51.051s22.895-51.051 51.051-51.051 51.051 22.895 51.051 51.051-22.895 51.051-51.051 51.051zm0-86.793c-19.707 0-35.746 16.039-35.746 35.746 0 19.707 16.039 35.746 35.746 35.746 19.707 0 35.746-16.039 35.746-35.746-0.003906-19.707-16.043-35.746-35.746-35.746z"
+                                    ></path>
+                                    <path
+                                        d="m560.04 524.16c-12.277 0-22.258-9.9805-22.258-22.258s9.9805-22.258 22.258-22.258c12.277 0 22.258 9.9805 22.258 22.258-0.003906 12.277-9.9844 22.258-22.258 22.258zm0-29.207c-3.8281 0-6.9531 3.125-6.9531 6.9531s3.125 6.9531 6.9531 6.9531c3.8281 0 6.9531-3.125 6.9531-6.9531-0.003907-3.8281-3.1289-6.9531-6.9531-6.9531z"
+                                    ></path>
+                                </g>
+                            </g>
+                        </svg>
+                        Delivery fee is Ghc 30 for deliveries in Accra,
+                        Ashaiman,Tema,Kasoa and it neighbors
+                    </div>
+                </div>
+                <div class="return-and-cash-box">
+                    <div class="returns">
+                        <svg
+                            height="30px"
+                            width="30px"
+                            fill="rgb(19,28,90)"
+                            version="1.1"
+                            viewBox="144 144 512 512"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g
+                                id="SVGRepo_tracerCarrier"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            ></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path
+                                    d="m596.95 359.9c0 75.777-61.641 137.36-137.36 137.36h-171.19l32.543 36.758c9.5625 10.797 8.5352 27.352-2.2617 36.91-4.9883 4.4219-11.156 6.582-17.324 6.582-7.25 0-14.395-2.9805-19.586-8.7891l-72.133-81.535c-8.7383-9.8711-8.7383-24.777 0-34.648l72.074-81.484c9.5625-10.797 26.117-11.824 36.91-2.2617 10.797 9.5625 11.824 26.062 2.2617 36.91l-34.699 39.227h173.4c46.938 0 85.082-38.195 85.082-85.082 0-46.887-38.195-85.082-85.082-85.082h-140.45c-14.445 0-26.117-11.723-26.117-26.117 0-14.395 11.723-26.117 26.117-26.117h140.4c75.777-0.046875 137.41 61.59 137.41 137.37z"
+                                ></path>
+                            </g></svg
+                        >7 Days Returns
+                    </div>
+                    <div class="cash-on-delivery">
+                        <svg
+                            height="30px"
+                            width="30px"
+                            fill="rgb(19,28,90)"
+                            version="1.1"
+                            viewBox="144 144 512 512"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g
+                                id="SVGRepo_tracerCarrier"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            ></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <defs>
+                                    <clipPath id="a">
+                                        <path
+                                            d="m185 148.09h430v503.81h-430z"
+                                        ></path>
+                                    </clipPath>
+                                </defs>
+                                <g clip-path="url(#a)">
+                                    <path
+                                        d="m613.99 503.37c-0.53125-37.512-17.316-83.941-46.066-127.39-10.074-15.176-21.273-29.57-33.508-43.062 29.566-0.50391 46.855-16.016 50.828-38.27 4.6406-26.039-10.773-52.75-54.641-60.582h-0.003906c-6.875-1.1328-13.863-1.4141-20.805-0.83984l28.406-16.922h-0.003907c4.6836-2.7773 6.2305-8.8281 3.4492-13.512-2.7773-4.6836-8.8281-6.2266-13.512-3.4492l-55.961 33.383c10.172-17.082 18.164-36.633 21.16-59.449 0.80859-6.1406 0.98438-13.887-4.5039-19.297-5.4883-5.4102-13.195-4.9297-18.5-4.1211-63.078 9.6875-77.742 25.676-111.88 8.3672h0.003906c-8.5078-4.2461-17.52-7.3906-26.82-9.3633-19.602-4.207-35.68 9.4531-33.934 28.652 3.1914 35.234 18.934 63.078 50.57 88.703-45.977 29.605-83.113 65.281-110.52 106.16-26.711 39.848-43.586 83.488-50.156 129.74-5.4414 38.328 3.0078 70.074 25.094 94.34 48.656 53.457 152.77 57.98 224.71 54.59 49.566-2.3438 92.172-15.672 123.2-38.555 35.559-26.195 54.016-63.934 53.387-109.13zm-86.828-249.89c27.98 4.9961 42.086 18.727 38.703 37.719-3.9414 22.027-27.145 24.414-49.07 20.5-1.4102-0.24609-2.8477-0.58203-4.2969-0.98438l-0.003906-0.003906c-17.434-16.18-36.484-30.523-56.848-42.812 18.914-7.875 49.574-18.281 71.516-14.418zm-209.82-77.734c-0.58203-6.3359 4.0312-8.8711 10.16-7.6094h0.003906c7.6445 1.6172 15.051 4.1992 22.047 7.6797 43.484 22.047 65.66 1.3203 124.41-6.5625-2.957 33.176-22.668 63.078-44.43 87.875l-60.684-0.003906c-41.816-30.68-49.535-59.547-51.508-81.379zm119.12 455.62c-72.32 3.4102-167.32-2.1797-209.19-48.176-18.203-19.988-24.789-45.602-20.145-78.312 13-91.66 70.242-172.48 161.28-228.06h63.078c103.06 55.32 161.86 161.3 162.79 226.82 1.25 88.633-80.703 124.09-157.81 127.73z"
+                                    ></path>
+                                </g>
+                                <path
+                                    d="m424.7 442.78c-5.9141-2.0781-11.254-4.0508-16.152-5.9141v-79.219c13.008 1.0742 21.25 6.8984 25.715 11.293 1.8164 2.0234 4.3906 3.207 7.1094 3.2656 2.7148 0.0625 5.3398-1.0039 7.2461-2.9414s2.9297-4.5781 2.8242-7.293c-0.10547-2.7188-1.332-5.2695-3.3828-7.0547-5.6289-5.5586-18.656-15.691-39.551-16.98v-17.742c0-5.4414-4.4141-9.8555-9.8555-9.8555-5.4453 0-9.8555 4.4141-9.8555 9.8555v19.102c-3.3945 0.64453-6.75 1.4688-10.055 2.4727-19.25 5.7969-33.637 22.324-37.559 43.121-3.5469 18.816 2.375 36.871 15.445 47.129 7.8828 6.2109 17.969 11.895 32.168 18.016v96.086c-14.93-0.43359-23.891-2.8672-39.422-13.051-4.5586-2.9922-10.68-1.7266-13.672 2.8281-2.9922 4.5586-1.7266 10.68 2.8281 13.672 19.594 12.812 31.953 15.77 50.266 16.254v20.461c0 5.4414 4.4102 9.8555 9.8555 9.8555 5.4414 0 9.8555-4.4141 9.8555-9.8555v-21.121c13.203-1.832 25.527-7.6562 35.324-16.699 11.148-10.273 18.566-23.961 21.102-38.91 5.1055-30.148-10.703-56.375-40.234-66.773zm-55.863-26.234c-7.2656-5.6953-10.426-16.41-8.25-27.961 1.9727-10.613 9.3242-23.516 23.871-27.902 1.5-0.45312 2.957-0.83594 4.375-1.1836v68.992h0.003906c-7.0859-3.25-13.793-7.2734-19.996-11.996zm76.699 89.785c-2.8086 16.676-15.414 34.496-36.988 38.891v-87.324c3.043 1.1289 6.2383 2.2852 9.5898 3.4688 24.324 8.5586 30.102 28.82 27.398 44.918z"
+                                ></path>
+                            </g>
+                        </svg>
+                        Cash on Delivery is Available
+                    </div>
+                </div>
+                <div class="delivery-box">
+                    <span>Ghc 30 for delivery from pick up station</span>
+                    <span>Ghc 45 for door to door delivery </span>
+                    <span
+                        >Note: Prices are for deliveries in the GREATER ACCRA
+                        REGION</span
+                    >
+                </div>
+                <div id="details"></div>
+            </div>
+
+            <div class="notification">
+                <h2 class="noti-head">Notify</h2>
+                <div id="note" class="notification-info">
+                    No Results Enter again
+                </div>
+                <div onclick="closeNotification()" class="close-note">Ok</div>
+            </div>
+            <div id="body-box">
+                <button onclick="openCartMenu()" class="cart-btn">
+                    <svg
+                        viewBox="0 0 48 48"
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="3em"
+                        width="3em"
+                    >
+                        <path
+                            fill="currentColor"
+                            d="M14.35 43.95q-1.5 0-2.55-1.05-1.05-1.05-1.05-2.55 0-1.5 1.05-2.55 1.05-1.05 2.55-1.05 1.45 0 2.525 1.05t1.075 2.55q0 1.5-1.05 2.55-1.05 1.05-2.55 1.05Zm20 0q-1.5 0-2.55-1.05-1.05-1.05-1.05-2.55 0-1.5 1.05-2.55 1.05-1.05 2.55-1.05 1.45 0 2.525 1.05t1.075 2.55q0 1.5-1.05 2.55-1.05 1.05-2.55 1.05Zm-20.5-10.4q-2.1 0-3.025-1.4-.925-1.4.025-3.15l3.2-5.9L6.45 7H4q-.6 0-1.025-.45-.425-.45-.425-1.1 0-.6.425-1.025Q3.4 4 4.05 4h3.4q.45 0 .8.225.35.225.55.625l1.45 3.1H39.7q1.6 0 2.025.975.425.975-.275 2.175L34.7 23.25q-.5.85-1.4 1.475-.9.625-1.95.625H16.2l-2.8 5.2h23.1q.6 0 1.025.45.425.45.425 1.05 0 .65-.425 1.075-.425.425-1.075.425Z"
+                        />
+                    </svg>
+                    <div id="count" class="item-count">0</div>
+                </button>
+                <!--   cart menu -->
+                <div id="cartMenu" class="cart-menu">
+                    <div onclick="closeCartPage()" class="close-cart">
+                        <svg
+                            class="w-[36px] h-[36px] text-gray-800 dark:text-white"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke="currentColor"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="3"
+                                d="M5 12h14M5 12l4-4m-4 4 4 4"
+                            />
+                        </svg>
+                    </div>
+                    <h2 class="cart-head">Cart</h2>
+                    <div class="subtotals">
+                        <div id="subtotal">Total: Ghc 0.00</div>
+                    </div>
+                    <div id="cartList">
+                        <div id="cartLoader">
+                            <div id="square" class="shimmer"></div>
+                            <div id="content">
+                                <div id="content-title" class="shimmer"></div>
+                                <div id="content-desc">
+                                    <div class="line shimmer"></div>
+                                    <div class="line shimmer"></div>
+                                    <div class="line shimmer"></div>
+                                    <div class="line shimmer"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="cartLoader">
+                            <div id="square" class="shimmer"></div>
+                            <div id="content">
+                                <div id="content-title" class="shimmer"></div>
+                                <div id="content-desc">
+                                    <div class="line shimmer"></div>
+                                    <div class="line shimmer"></div>
+                                    <div class="line shimmer"></div>
+                                    <div class="line shimmer"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="cartLoader">
+                            <div id="square" class="shimmer"></div>
+                            <div id="content">
+                                <div id="content-title" class="shimmer"></div>
+                                <div id="content-desc">
+                                    <div class="line shimmer"></div>
+                                    <div class="line shimmer"></div>
+                                    <div class="line shimmer"></div>
+                                    <div class="line shimmer"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="check-out">
+                        <button onclick="checkOut()" class="check-out-btn">
+                            Check Out
+                        </button>
+                    </div>
+                </div>
+                <!-- homepage -->
+                <div class="home-container">
+                    <div id="homepage" class="navPage navPageSelect">
+                        <!-- search-bar -->
+                        <div class="search-bar">
+                            <input
+                                onclick="openSearchPage()"
+                                type="search"
+                                name="search-product"
+                                id="search-product"
+                                placeholder="Search"
+                                onkeypress="searchProducts();openResultPage()"
+                                value=""
+                            />
+                            <svg
+                                onclick="closeSearchpage()"
+                                class="close-search-page"
+                                viewBox="0 0 48 48"
+                                xmlns="http://www.w3.org/2000/svg"
+                                height="3em"
+                                width="3em"
+                            >
+                                <path
+                                    fill="currentColor"
+                                    d="m26.95 34.9-9.9-9.9q-.25-.25-.35-.5-.1-.25-.1-.55 0-.3.1-.55.1-.25.35-.5L27 12.95q.45-.45 1.075-.45t1.075.45q.45.45.425 1.1-.025.65-.475 1.1l-8.8 8.8 8.85 8.85q.45.45.45 1.05 0 .6-.45 1.05-.45.45-1.1.45-.65 0-1.1-.45Z"
+                                />
+                            </svg>
+                            <div id="searchResults">
+                                <div class="search-loader">
+                                    <div class="loader">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 512 512"
+                                        >
+                                            <path
+                                                d="M64 32C28.7 32 0 60.7 0 96v64c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm280 72a24 24 0 1 1 0 48 24 24 0 1 1 0-48zm48 24a24 24 0 1 1 48 0 24 24 0 1 1 -48 0zM64 288c-35.3 0-64 28.7-64 64v64c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V352c0-35.3-28.7-64-64-64H64zm280 72a24 24 0 1 1 0 48 24 24 0 1 1 0-48zm56 24a24 24 0 1 1 48 0 24 24 0 1 1 -48 0z"
+                                            ></path>
+                                        </svg>
+                                        <span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dark">
+                                <label class="toggle" for="switch">
+                                    <input
+                                        id="switch"
+                                        class="put"
+                                        type="checkbox"
+                                    />
+                                    <div class="icon icon--moon">
+                                        <svg
+                                            height="25"
+                                            width="25"
+                                            fill="currentColor"
+                                            viewBox="0
+                                            0 24
+                                            24"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                clip-rule="evenodd"
+                                                d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z"
+                                                fill-rule="evenodd"
+                                            ></path>
+                                        </svg>
+                                    </div>
+
+                                    <div class="icon icon--sun">
+                                        <svg
+                                            height="25"
+                                            width="25"
+                                            fill="currentColor"
+                                            viewBox="0
+                                            0 24
+                                            24"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"
+                                            ></path>
+                                        </svg>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <!-- search-bar end -->
+                        <div id="homePageBbox">
+                            <div class="adds" id=""></div>
+
+                            <div class="top-picks-box">
+                                <h5 class="top-picks">Top Picks</h5>
+                                <div id="topPickList">
+                                    <div id="topPicksContainer">
+                                        <div class="top-picks-loader"></div>
+                                        <div class="top-picks-loader"></div>
+                                        <div class="top-picks-loader"></div>
+                                        <div class="top-picks-loader"></div>
+                                        <div class="top-picks-loader"></div>
+                                        <div class="top-picks-loader"></div>
+                                        <div class="top-picks-loader"></div>
+                                        <div class="top-picks-loader"></div>
+                                        <div class="top-picks-loader"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="popular" id="productP">
+                                <h5 class="popular-head">Popular</h5>
+                                <div id="popularList">
+                                    <div class="topPick-loader"></div>
+                                </div>
+                            </div>
+                            <div class="brand" id="brandP">
+                                <h5 class="brand-head">Brands</h5>
+                                <div id="brandList">
+                                    <div class="topPick-loader"></div>
+                                </div>
+                            </div>
+                            <div class="new-arrivals" id="newArrivals">
+                                <h5 class="new-arrivals-head">New Arrivals</h5>
+                                <div class="new-products"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Category Page  -->
+                    <!-- Category Page  -->
+                    <!-- Category Page  -->
+                    <div id="category" class="navPage">
+                        <h2 class="category-head">Category</h2>
+                        <div class="category-box">
+                            <span
+                                onclick="btnSelect(0)"
+                                id="grocery"
+                                class="cat-hov cat-active"
+                                >Grocery</span
+                            >
+                            <span
+                                onclick="btnSelect(1)"
+                                id="phones"
+                                class="cat-hov"
+                                >Phones & Tablets</span
+                            >
+                            <span
+                                onclick="btnSelect(2)"
+                                id="computing"
+                                class="cat-hov"
+                                >Computing</span
+                            >
+
+                            <span onclick="btnSelect(3)" id="machinery"
+                                >Machinery</span
+                            >
+                            <span onclick="btnSelect(4)" id="electronics"
+                                >Electronics</span
+                            >
+                            <span onclick="btnSelect(5)" id="fashion"
+                                >Fashion</span
+                            >
+                            <span onclick="btnSelect(6)" id="sports"
+                                >Sports</span
+                            >
+                            <span onclick="btnSelect(7)" id="gaming"
+                                >Gaming</span
+                            >
+                            <span onclick="btnSelect(8)" id="home-and-office"
+                                >Home & Office</span
+                            >
+                            <span onclick="btnSelect(9)" id="health"
+                                >Health & Beauty</span
+                            >
+                            <span onclick="btnSelect(10)" id="garden"
+                                >Garden & Outdoors</span
+                            >
+                            <span
+                                onclick="btnSelect(11)"
+                                id="musical-instruments"
+                                >Musical Instruments</span
+                            >
+                            <span onclick="btnSelect(12)" id="miscellaneous"
+                                >Miscellaneous</span
+                            >
+                            <span onclick="btnSelect(13)" id="books"
+                                >Books & Movies</span
+                            >
+                            <span onclick="btnSelect(14)" id="automobile"
+                                >Automobile</span
+                            >
+                        </div>
+                        <!--    end of catbox -->
+                        <!--  category page -->
+                        <div id="ref"></div>
+                        <div class="category-display">
+                            <div class="for-gros show" id="groceryP"></div>
+                            <div class="for-gros" id="phoneP"></div>
+                            <div class="for-gros" id="computingP"></div>
+
+                            <div class="for-gros" id="machinaryP"></div>
+                            <div class="for-gros" id="elecP"></div>
+                            <div class="for-gros" id="fashionP"></div>
+                            <div class="for-gros" id="sportsP"></div>
+                            <div class="for-gros" id="gamingP"></div>
+                            <div class="for-gros" id="homeAndOfficeP"></div>
+                            <div class="for-gros" id="healthP"></div>
+                            <div class="for-gros" id="gardenP"></div>
+                            <div class="for-gros" id="musicP"></div>
+                            <div class="for-gros" id="miscP"></div>
+                            <div class="for-gros" id="booksP"></div>
+                            <div class="for-gros" id="automobileP"></div>
+                        </div>
+                    </div>
+                    <!-- Feed Page  -->
+                    <!-- Feed Page  -->
+                    <!-- Feed Page  -->
+                    <!-- Feed Page  -->
+                    <div class="navPage" id="feedpage">
+                        <h2 class="feed-head">Feeds</h2>
+                        <div id="feedList" class="feed-list">
+                            <div id="loaderGrid">
+                                <div class="loader-item">
+                                    <div
+                                        id="imagePlaceholder"
+                                        class="loading-effect"
+                                    ></div>
+                                    <div id="textContent">
+                                        <div
+                                            id="titlePlaceholder"
+                                            class="loading-effect"
+                                        ></div>
+                                        <div id="descriptionPlaceholder">
+                                            <div
+                                                class="text-line loading-effect"
+                                            ></div>
+                                            <div
+                                                class="text-line loading-effect"
+                                            ></div>
+                                            <div
+                                                class="text-line loading-effect"
+                                            ></div>
+                                            <div
+                                                class="text-line loading-effect"
+                                            ></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="loader-item">
+                                    <div
+                                        id="imagePlaceholder"
+                                        class="loading-effect"
+                                    ></div>
+                                    <div id="textContent">
+                                        <div
+                                            id="titlePlaceholder"
+                                            class="loading-effect"
+                                        ></div>
+                                        <div id="descriptionPlaceholder">
+                                            <div
+                                                class="text-line loading-effect"
+                                            ></div>
+                                            <div
+                                                class="text-line loading-effect"
+                                            ></div>
+                                            <div
+                                                class="text-line loading-effect"
+                                            ></div>
+                                            <div
+                                                class="text-line loading-effect"
+                                            ></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="loader-item">
+                                    <div
+                                        id="imagePlaceholder"
+                                        class="loading-effect"
+                                    ></div>
+                                    <div id="textContent">
+                                        <div
+                                            id="titlePlaceholder"
+                                            class="loading-effect"
+                                        ></div>
+                                        <div id="descriptionPlaceholder">
+                                            <div
+                                                class="text-line loading-effect"
+                                            ></div>
+                                            <div
+                                                class="text-line loading-effect"
+                                            ></div>
+                                            <div
+                                                class="text-line loading-effect"
+                                            ></div>
+                                            <div
+                                                class="text-line loading-effect"
+                                            ></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="loader-item">
+                                    <div
+                                        id="imagePlaceholder"
+                                        class="loading-effect"
+                                    ></div>
+                                    <div id="textContent">
+                                        <div
+                                            id="titlePlaceholder"
+                                            class="loading-effect"
+                                        ></div>
+                                        <div id="descriptionPlaceholder">
+                                            <div
+                                                class="text-line loading-effect"
+                                            ></div>
+                                            <div
+                                                class="text-line loading-effect"
+                                            ></div>
+                                            <div
+                                                class="text-line loading-effect"
+                                            ></div>
+                                            <div
+                                                class="text-line loading-effect"
+                                            ></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Account page  -->
+                    <!-- Account page  -->
+                    <!-- Account page  -->
+                    <!-- Account page  -->
+                    <div id="account" class="navPage">
+                        <div id="account-header">
+                            <h2>Account</h2>
+                            <div class="userProfile">
+                                <svg
+                                    class="w-6 h-6 text-gray-800 dark:text-white"
+                                    aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="40"
+                                    height="40"
+                                    fill="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M12 20a7.966 7.966 0 0 1-5.002-1.756l.002.001v-.683c0-1.794 1.492-3.25 3.333-3.25h3.334c1.84 0 3.333 1.456 3.333 3.25v.683A7.966 7.966 0 0 1 12 20ZM2 12C2 6.477 6.477 2 12 2s10 4.477 10 10c0 5.5-4.44 9.963-9.932 10h-.138C6.438 21.962 2 17.5 2 12Zm10-5c-1.84 0-3.333 1.455-3.333 3.25S10.159 13.5 12 13.5c1.84 0 3.333-1.455 3.333-3.25S13.841 7 12 7Z"
+                                        clip-rule="evenodd"
+                                    />
+                                </svg>
+
+                                <div id="userBox">
+                                    <div id="userID"></div>
+                                    <div id="userEmail"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="empire-container">
+                            <h4 class="empire-header">My Empviv Account.</h4>
+                            <ul class="account-list">
+                                <span onclick="openChat()" class="li"
+                                    ><svg
+                                        class="w-6 h-6 text-gray-800 dark:text-white"
+                                        aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="30"
+                                        height="30"
+                                        fill="rgb(2,42,100)"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            fill-rule="evenodd"
+                                            d="M5.024 3.783A1 1 0 0 1 6 3h12a1 1 0 0 1 .976.783L20.802 12h-4.244a1.99 1.99 0 0 0-1.824 1.205 2.978 2.978 0 0 1-5.468 0A1.991 1.991 0 0 0 7.442 12H3.198l1.826-8.217ZM3 14v5a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5h-4.43a4.978 4.978 0 0 1-9.14 0H3Z"
+                                            clip-rule="evenodd"
+                                        />
+                                    </svg>
+                                    Messaging</span
+                                >
+                                <span class="li" onclick="runOrder()"
+                                    ><svg
+                                        class="w-[18px] h-[18px] text-gray-800 dark:text-white"
+                                        aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="30"
+                                        height="30"
+                                        fill="rgb(2,42,100)"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            fill-rule="evenodd"
+                                            d="M5 3a1 1 0 0 0 0 2h.687L7.82 15.24A3 3 0 1 0 11.83 17h2.34A3 3 0 1 0 17 15H9.813l-.208-1h8.145a1 1 0 0 0 .979-.796l1.25-6A1 1 0 0 0 19 6h-2.268A2 2 0 0 1 15 9a2 2 0 1 1-4 0 2 2 0 0 1-1.732-3h-1.33L7.48 3.796A1 1 0 0 0 6.5 3H5Z"
+                                            clip-rule="evenodd"
+                                        />
+                                        <path
+                                            fill-rule="evenodd"
+                                            d="M14 5a1 1 0 1 0-2 0v1h-1a1 1 0 1 0 0 2h1v1a1 1 0 1 0 2 0V8h1a1 1 0 1 0 0-2h-1V5Z"
+                                            clip-rule="evenodd"
+                                        />
+                                    </svg>
+                                    Orders</span
+                                >
+
+                                <span class="li" onclick="savedItems()"
+                                    ><svg
+                                        class="w-6 h-6 text-gray-800 dark:text-white"
+                                        aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="30"
+                                        height="30"
+                                        fill="rgb(2,42,100)"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            d="m12.75 20.66 6.184-7.098c2.677-2.884 2.559-6.506.754-8.705-.898-1.095-2.206-1.816-3.72-1.855-1.293-.034-2.652.43-3.963 1.442-1.315-1.012-2.678-1.476-3.973-1.442-1.515.04-2.825.76-3.724 1.855-1.806 2.201-1.915 5.823.772 8.706l6.183 7.097c.19.216.46.34.743.34a.985.985 0 0 0 .743-.34Z"
+                                        />
+                                    </svg>
+                                    Saved Items</span
+                                >
+                            </ul>
+                            <div class="setting">
+                                <h4 class="empire-header">Settings</h4>
+                                <ul class="setting-list">
+                                    <div
+                                        class="setting-item"
+                                        onclick="openAddressBook()"
+                                    >
+                                        <svg
+                                            viewBox="0 0 48 48"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            height="30"
+                                            width="30"
+                                        >
+                                            <path
+                                                fill="rgb(2,45,100)"
+                                                d="M28 17.6q0-.3.2-.575.2-.275.45-.375 1.5-.55 3.075-.85 1.575-.3 3.275-.3 1.1 0 2.15.125 1.05.125 2.05.375.3.1.55.375.25.275.25.625 0 .55-.375.85-.375.3-.925.15-.85-.25-1.775-.375Q36 17.5 35 17.5q-1.45 0-2.8.275-1.35.275-2.65.825-.7.25-1.125-.025Q28 18.3 28 17.6Zm0 11q0-.3.2-.6t.45-.4q1.5-.55 3.075-.825Q33.3 26.5 35 26.5q1.1 0 2.15.125 1.05.125 2.05.375.3.1.55.375.25.275.25.625 0 .55-.375.85-.375.3-.925.15-.85-.25-1.775-.375Q36 28.5 35 28.5q-1.45 0-2.8.25-1.35.25-2.65.8-.7.25-1.125 0Q28 29.3 28 28.6Zm0-5.5q0-.3.2-.575.2-.275.45-.375 1.5-.55 3.075-.85Q33.3 21 35 21q1.1 0 2.15.125 1.05.125 2.05.375.3.1.55.375.25.275.25.625 0 .55-.375.85-.375.3-.925.15-.85-.25-1.775-.375Q36 23 35 23q-1.45 0-2.8.275-1.35.275-2.65.825-.7.25-1.125-.025Q28 23.8 28 23.1ZM12.4 33q2.7 0 5.225.625 2.525.625 4.975 1.875V14.15q-2.25-1.5-4.875-2.325Q15.1 11 12.4 11q-1.9 0-3.725.475Q6.85 11.95 5 12.65v21.7q1.55-.7 3.525-1.025Q10.5 33 12.4 33Zm13.2 2.5q2.5-1.25 4.9-1.875Q32.9 33 35.6 33q1.9 0 3.925.3t3.475.8V12.65q-1.7-.85-3.6-1.25-1.9-.4-3.8-.4-2.7 0-5.225.825-2.525.825-4.775 2.325ZM13.8 23.55Zm10.3 15.9q-.4 0-.725-.075-.325-.075-.575-.275-2.35-1.45-5-2.25t-5.4-.8q-1.85 0-3.6.45t-3.5 1.1q-1.15.55-2.225-.15Q2 36.75 2 35.45V12.3q0-.75.35-1.375T3.4 9.95q2.1-1 4.375-1.475Q10.05 8 12.4 8q3.15 0 6.125.85t5.575 2.6q2.55-1.75 5.475-2.6Q32.5 8 35.6 8q2.35 0 4.6.475 2.25.475 4.35 1.475.7.35 1.075.975T46 12.3v23.15q0 1.4-1.125 2.125-1.125.725-2.225.025-1.7-.7-3.45-1.125-1.75-.425-3.6-.425-2.7 0-5.3.8-2.6.8-4.9 2.25-.25.2-.575.275-.325.075-.725.075Z"
+                                            />
+                                        </svg>
+                                        Address Book
+                                        <svg
+                                            id="expandIcon"
+                                            class="expIcon"
+                                            viewBox="0 0 48 48"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            height="30"
+                                            width="30"
+                                        >
+                                            <path
+                                                fill="currentColor"
+                                                d="M24 30.15q-.3 0-.55-.1-.25-.1-.5-.35l-9.9-9.9q-.4-.4-.375-1.075.025-.675.425-1.075.5-.5 1.075-.425.575.075 1.025.475l8.8 8.8 8.8-8.8q.4-.4 1.075-.45.675-.05 1.075.45.5.4.425 1.05-.075.65-.475 1.1l-9.85 9.85q-.25.25-.5.35-.25.1-.55.1Z"
+                                            />
+                                        </svg>
+                                    </div>
+                                    <div id="addressPage">
+                                        <div class="address-container"></div>
+                                        <div class="test-checkout"></div>
+                                    </div>
+                                    <!-- account Management -->
+                                    <span
+                                        class="setting-item"
+                                        onclick="openAccMgt()"
+                                        ><svg
+                                            viewBox="0 0 48 48"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            height="30"
+                                            width="30"
+                                        >
+                                            <path
+                                                fill="rgb(2,40,100)"
+                                                d="M20 23.75q-3.3 0-5.4-2.1-2.1-2.1-2.1-5.4 0-3.3 2.1-5.4 2.1-2.1 5.4-2.1 3.3 0 5.4 2.1 2.1 2.1 2.1 5.4 0 3.3-2.1 5.4-2.1 2.1-5.4 2.1ZM5.5 39.8q-.65 0-1.075-.425Q4 38.95 4 38.3v-3.2q0-1.75.875-3.15T7.4 29.8q3.6-1.6 6.675-2.3 3.075-.7 5.925-.7h1.15q-.3.7-.45 1.375-.15.675-.25 1.625H20q-2.9 0-5.675.625T8.6 32.5q-.8.4-1.2 1.125Q7 34.35 7 35.1v1.7h13.45q.25.9.6 1.625t.85 1.375ZM20 20.75q1.95 0 3.225-1.275Q24.5 18.2 24.5 16.25q0-1.95-1.275-3.225Q21.95 11.75 20 11.75q-1.95 0-3.225 1.275Q15.5 14.3 15.5 16.25q0 1.95 1.275 3.225Q18.05 20.75 20 20.75Zm0-4.5Zm.45 20.55Zm14.25-.85q1.65 0 2.825-1.175Q38.7 33.6 38.7 31.95q0-1.65-1.175-2.825Q36.35 27.95 34.7 27.95q-1.65 0-2.825 1.175Q30.7 30.3 30.7 31.95q0 1.65 1.175 2.825Q33.05 35.95 34.7 35.95Zm-1.85 2.75q-.85-.25-1.725-.725-.875-.475-1.475-1.075l-2.2.5q-.25.1-.5 0t-.35-.35l-.65-1.15q-.15-.2-.1-.45.05-.25.25-.45l1.9-1.8q-.1-.45-.1-1.25t.1-1.25l-1.9-1.8q-.2-.2-.25-.45-.05-.25.1-.45l.65-1.15q.1-.25.35-.35.25-.1.5 0l2.2.5q.6-.6 1.475-1.075.875-.475 1.725-.725l.4-2.65q.05-.3.25-.475t.5-.175h1.4q.3 0 .5.175t.25.475l.4 2.65q.85.25 1.725.725.875.475 1.475 1.075l2.2-.5q.25-.1.5 0t.35.35l.65 1.15q.15.2.1.45-.05.25-.25.45l-1.9 1.8q.1.45.1 1.25t-.1 1.25l1.9 1.8q.2.2.25.45.05.25-.1.45l-.65 1.15q-.1.25-.35.35-.25.1-.5 0l-2.2-.5q-.6.6-1.475 1.075-.875.475-1.725.725l-.4 2.65q-.05.3-.25.475t-.5.175H34q-.3 0-.5-.175t-.25-.475Z"
+                                            /></svg
+                                        >Account Management<svg
+                                            class="expIcon"
+                                            id="mgtIc"
+                                            viewBox="0 0 48 48"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            height="30"
+                                            width="30"
+                                        >
+                                            <path
+                                                fill="currentColor"
+                                                d="M24 30.15q-.3 0-.55-.1-.25-.1-.5-.35l-9.9-9.9q-.4-.4-.375-1.075.025-.675.425-1.075.5-.5 1.075-.425.575.075 1.025.475l8.8 8.8 8.8-8.8q.4-.4 1.075-.45.675-.05 1.075.45.5.4.425 1.05-.075.65-.475 1.1l-9.85 9.85q-.25.25-.5.35-.25.1-.55.1Z"
+                                            /></svg
+                                    ></span>
+                                    <!-- ac mg page  -->
+                                    <div id="accountManagement">
+                                        <span onclick="openChange()"
+                                            ><svg
+                                                viewBox="0 0 48 48"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                height="1.5em"
+                                                width="1.5em"
+                                            >
+                                                <path
+                                                    fill="currentColor"
+                                                    d="m19.7 42 7-7h13.8q1.45 0 2.475 1.025Q44 37.05 44 38.5q0 1.45-1.025 2.475Q41.95 42 40.5 42ZM7 39h2.2l22.15-22.15-2.2-2.2L7 36.8Zm30.7-24.3-6.4-6.4 2.1-2.1q.85-.85 2.125-.825 1.275.025 2.125.875L39.8 8.4q.85.85.85 2.1t-.85 2.1ZM5.5 42q-.65 0-1.075-.425Q4 41.15 4 40.5v-4.3q0-.3.1-.55.1-.25.35-.5L29.2 10.4l6.4 6.4-24.75 24.75q-.25.25-.5.35-.25.1-.55.1Zm24.75-26.25-1.1-1.1 2.2 2.2Z"
+                                                /></svg
+                                            >Change account name</span
+                                        >
+                                        <div class="change-name">
+                                            <input
+                                                type="text"
+                                                name="changeUsername"
+                                                id="changeUsername"
+                                                value=""
+                                                placeholder="Username"
+                                            />
+                                            <button
+                                                onclick="saveName()"
+                                                class="save-name"
+                                                type="submit"
+                                            >
+                                                Save
+                                            </button>
+                                        </div>
+                                        <span
+                                            id="resetP"
+                                            onclick="openPasswordReset()"
+                                        >
+                                            <svg
+                                                viewBox="0 0 48 48"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                height="1.5em"
+                                                width="1.5em"
+                                            >
+                                                <path
+                                                    fill="currentColor"
+                                                    d="M5.5 38q-.65 0-1.075-.45Q4 37.1 4 36.45q0-.65.45-1.075.45-.425 1.1-.425H42.5q.65 0 1.075.425Q44 35.8 44 36.45q0 .65-.45 1.1-.45.45-1.1.45Zm-.55-13.25q-.4-.25-.55-.7-.15-.45.1-.85l1.4-2.4H3.1q-.45 0-.775-.325T2 19.65q0-.45.325-.775t.825-.325H5.9l-1.4-2.4q-.25-.4-.125-.85.125-.45.525-.7.4-.25.85-.1.45.15.7.55L7.8 17.4l1.35-2.35q.25-.5.7-.6.45-.1.85.15.4.25.525.7.125.45-.125.85l-1.4 2.4h2.8q.45 0 .775.325t.325.775q0 .5-.325.825-.325.325-.775.325H9.7l1.4 2.4q.25.4.125.875t-.525.675q-.4.25-.85.1-.45-.15-.7-.55L7.8 21.95 6.45 24.3q-.25.5-.675.6-.425.1-.825-.15Zm16.15-.05q-.4-.25-.525-.725t.125-.875l1.4-2.4h-2.8q-.45 0-.775-.325t-.325-.825q0-.45.325-.775t.825-.325h2.75l-1.4-2.4q-.25-.4-.125-.85.125-.45.525-.7.4-.25.85-.1.45.15.7.55L24 17.3l1.35-2.35q.25-.5.675-.6.425-.1.825.15.4.25.55.7.15.45-.1.85l-1.4 2.4h2.8q.45 0 .775.325t.325.775q0 .5-.325.825-.325.325-.775.325h-2.8l1.4 2.4q.25.4.125.9t-.525.7q-.4.25-.875.125t-.725-.575l-1.3-2.3-1.3 2.3q-.25.4-.725.55-.475.15-.875-.1Zm16.2 0q-.4-.25-.525-.725t.125-.875l1.4-2.4h-2.8q-.45 0-.775-.325t-.325-.825q0-.45.325-.775t.825-.325h2.75l-1.4-2.4q-.25-.4-.125-.85.125-.45.525-.7.4-.25.85-.1.45.15.7.55l1.35 2.35 1.35-2.35q.25-.5.65-.6.4-.1.85.15.4.25.55.7.15.45-.1.85l-1.4 2.4h2.8q.45 0 .775.325t.325.775q0 .5-.325.825-.325.325-.775.325h-2.8l1.4 2.4q.25.4.125.9t-.525.7q-.4.25-.875.125t-.725-.575l-1.3-2.3-1.3 2.3q-.25.4-.725.55-.475.15-.875-.1Z"
+                                                /></svg
+                                            >Change Password</span
+                                        >
+                                        <div id="passwordChange">
+                                            <input
+                                                type="email"
+                                                name="changePass"
+                                                id="changePass"
+                                                placeholder="E-mail"
+                                                value=""
+                                            /><button
+                                                onclick="changeAccoutPassword()"
+                                                id="sendReset"
+                                                type="submit"
+                                            >
+                                                Reset Password
+                                            </button>
+                                        </div>
+                                        <span onclick="openAccDelPage()"
+                                            ><svg
+                                                viewBox="0 0 48 48"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                height="1.5em"
+                                                width="1.5em"
+                                            >
+                                                <path
+                                                    fill="currentColor"
+                                                    d="M13.05 42q-1.2 0-2.1-.9-.9-.9-.9-2.1V10.5H9.5q-.65 0-1.075-.425Q8 9.65 8 9q0-.65.425-1.075Q8.85 7.5 9.5 7.5h7.9q0-.65.425-1.075Q18.25 6 18.9 6h10.2q.65 0 1.075.425.425.425.425 1.075h7.9q.65 0 1.075.425Q40 8.35 40 9q0 .65-.425 1.075-.425.425-1.075.425h-.55V39q0 1.2-.9 2.1-.9.9-2.1.9Zm0-31.5V39h21.9V10.5Zm5.3 22.7q0 .65.425 1.075.425.425 1.075.425.65 0 1.075-.425.425-.425.425-1.075V16.25q0-.65-.425-1.075-.425-.425-1.075-.425-.65 0-1.075.425-.425.425-.425 1.075Zm8.3 0q0 .65.425 1.075.425.425 1.075.425.65 0 1.075-.425.425-.425.425-1.075V16.25q0-.65-.425-1.075-.425-.425-1.075-.425-.65 0-1.075.425-.425.425-.425 1.075Zm-13.6-22.7V39 10.5Z"
+                                                /></svg
+                                            >Delete Account</span
+                                        >
+                                        <!--   confire delete -->
+                                        <div id="confirmDel">
+                                            Note, this process cannot be undone
+                                            and user may lose sensitive
+                                            information.
+                                            <button
+                                                onclick="proceedDel()"
+                                                id="delAccBtn"
+                                                type="submit"
+                                            >
+                                                Proceed
+                                            </button>
+                                        </div>
+                                        <!--            password to del acc -->
+                                        <div id="passDelPage">
+                                            <input
+                                                type="text"
+                                                name=""
+                                                id="delPass"
+                                                placeholder="Enter Email to delete account"
+                                            />
+                                            <button
+                                                id="delete"
+                                                onclick="deleteAcc()"
+                                                id="deleteAccount"
+                                                type="submit"
+                                            >
+                                                Delete Account
+                                            </button>
+                                        </div>
+                                    </div>
+                                </ul>
+                            </div>
+                            <div class="logout-container">
+                                <button class="logout-btn" onclick="logout()">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="35"
+                                        height="35"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="icon icon-tabler icons-tabler-outline icon-tabler-logout"
+                                    >
+                                        <path
+                                            stroke="none"
+                                            d="M0 0h24v24H0z"
+                                            fill="none"
+                                        />
+                                        <path
+                                            d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"
+                                        />
+                                        <path d="M9 12h12l-3 -3" />
+                                        <path d="M18 15l3 -3" />
+                                    </svg>
+                                </button>
+
+                                <div class="logout-text">Log Out</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- chat page -->
+                    <div class="chat-container">
+                        <svg
+                            class="close-chat"
+                            onclick="closeChat()"
+                            viewBox="0 0 48 48"
+                            xmlns="http://www.w3.org/2000/svg"
+                            height="3.0em"
+                            width="3.0em"
+                        >
+                            <path
+                                fill="currentColor"
+                                d="m26.95 34.9-9.9-9.9q-.25-.25-.35-.5-.1-.25-.1-.55 0-.3.1-.55.1-.25.35-.5L27 12.95q.45-.45 1.075-.45t1.075.45q.45.45.425 1.1-.025.65-.475 1.1l-8.8 8.8 8.85 8.85q.45.45.45 1.05 0 .6-.45 1.05-.45.45-1.1.45-.65 0-1.1-.45Z"
+                            />
+                        </svg>
+                        <div class="messages" id="message-container"></div>
+                        <div class="input-container">
+                            <input
+                                type="text"
+                                id="message-input"
+                                placeholder="Type a message"
+                            />
+                            <button id="send-button">
+                                <svg
+                                    viewBox="0 0 48 48"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    height="3em"
+                                    width="3em"
+                                >
+                                    <path
+                                        fill="currentColor"
+                                        d="M8.1 39.1q-.75.3-1.425-.125T6 37.75V28.9q0-.55.325-.95.325-.4.825-.5L21.1 24 7.15 20.45q-.5-.1-.825-.5Q6 19.55 6 19v-8.75q0-.8.675-1.225Q7.35 8.6 8.1 8.9l32.6 13.7q.9.4.9 1.4 0 1-.9 1.4Z"
+                                    />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- my empviv set pages -->
+                    <div class="acc-page">
+                        <svg
+                            onclick="closeInbox()"
+                            class="close-inbox"
+                            viewBox="0 0 48 48"
+                            xmlns="http://www.w3.org/2000/svg"
+                            height="2.0em"
+                            width="2.0em"
+                        >
+                            <path
+                                fill="currentColor"
+                                d="M24 26.1 13.5 36.6q-.45.45-1.05.45-.6 0-1.05-.45-.45-.45-.45-1.05 0-.6.45-1.05L21.9 24 11.4 13.5q-.45-.45-.45-1.05 0-.6.45-1.05.45-.45 1.05-.45.6 0 1.05.45L24 21.9l10.5-10.5q.45-.45 1.05-.45.6 0 1.05.45.45.45.45 1.05 0 .6-.45 1.05L26.1 24l10.5 10.5q.45.45.45 1.05 0 .6-.45 1.05-.45.45-1.05.45-.6 0-1.05-.45Z"
+                            />
+                        </svg>
+                        <h2 class="rate-page"></h2>
+                        <div class="acc-page-content"></div>
+                    </div>
+                    <!-- Help Page  -->
+                    <!-- Help Page  -->
+                    <!-- Help Page  -->
+                    <!-- Help Page  -->
+                    <div class="navPage" id="help">
+                        <h2>Info</h2>
+                        <div class="info-page">
+                            <h3>
+                                Delivery and Customer Care ManagementDelivery
+                                Information
+                            </h3>
+                            <p>
+                                At Empviv Import , we prioritize prompt and
+                                reliable delivery to ensure a seamless shopping
+                                experience for our customers. Here’s what you
+                                can expect:
+                            </p>
+                            <h3>Fast Shipping:</h3>
+                            <p>
+                                We offer expedited shipping options to get your
+                                purchases to you as quickly as possible. Most
+                                orders are processed and dispatched within 24
+                                hours.
+                            </p>
+                            <h3>Tracking:</h3>
+                            <p>
+                                Once your order is shipped, you will receive a
+                                tracking number via email. This allows you to
+                                monitor your package's journey in real-time
+                                until it reaches your doorstep.
+                            </p>
+                            <h3>Flexible Delivery Options:</h3>
+                            <p>
+                                Choose from a variety of delivery options to
+                                suit your schedule, including standard, express,
+                                and same-day delivery (where available).
+                            </p>
+                            <h3>Safe and Secure Packaging:</h3>
+                            <p>
+                                We take great care in packaging your items to
+                                ensure they arrive in perfect condition. Fragile
+                                items are specially packed to prevent damage
+                                during transit.
+                            </p>
+                            <h3>International Shipping:</h3>
+                            <p>
+                                We offer worldwide shipping to bring our
+                                products to customers around the globe. Delivery
+                                times and shipping costs may vary based on your
+                                location.Customer Care ManagementOur commitment
+                                to customer satisfaction extends beyond the
+                                purchase. We provide comprehensive customer care
+                                services to address any concerns or questions
+                                you may have.24/7
+                            </p>
+                            <h3>Customer Support:</h3>
+                            <p>
+                                Our dedicated customer service team is available
+                                around the clock to assist you. Whether you have
+                                a query about a product, need help with an
+                                order, or have a concern, we’re here to
+                                help.Easy Returns and
+                            </p>
+                            <h3>Exchanges:</h3>
+                            <p>
+                                If you are not completely satisfied with your
+                                purchase, we offer a hassle-free return and
+                                exchange policy. Simply contact our customer
+                                service team to initiate the process.
+                            </p>
+                            <h3>Live Chat:</h3>
+                            <p>
+                                Get instant answers to your questions with our
+                                live chat feature. Our representatives are ready
+                                to assist you in real-time.
+                            </p>
+                            <h3>Comprehensive FAQ Section:</h3>
+                            <p>
+                                Visit our FAQ section for quick answers to
+                                common questions about orders, shipping,
+                                returns, and more.
+                            </p>
+                            <h3>Feedback and Complaints:</h3>
+                            <p>
+                                We value your feedback and strive to improve our
+                                services continuously. If you have any
+                                complaints or suggestions, please reach out to
+                                our customer care team. We take all feedback
+                                seriously and aim to resolve any issues
+                                promptly.
+                            </p>
+                            <h3>Personalized Assistance:</h3>
+                            <p>
+                                For complex inquiries or special requests, our
+                                customer care specialists provide personalized
+                                support to ensure your needs are met.Experience
+                                the best in delivery and customer care with
+                                Empviv. We’re dedicated to making your shopping
+                                experience as smooth and enjoyable as possible.
+                            </p>
+                        </div>
+                    </div>
+                    <!--   begining of bottom navbar -->
+                    <nav class="buttom-nav">
+                        <span onclick="navBtn(0)" class="nav-btn nav-select"
+                            ><svg
+                                viewBox="0 0 48 48"
+                                xmlns="http://www.w3.org/2000/svg"
+                                height="3em"
+                                width="3em"
+                            >
+                                <path
+                                    fill="currentColor"
+                                    d="M11 42q-1.25 0-2.125-.875T8 39V19.5q0-.7.325-1.35.325-.65.875-1.05l13-9.75q.4-.3.85-.45.45-.15.95-.15.5 0 .95.15.45.15.85.45l13 9.75q.55.4.875 1.05.325.65.325 1.35V39q0 1.25-.875 2.125T37 42h-9V28h-8v14Z"
+                                />
+                            </svg>
+                            Home</span
+                        >
+                        <span onclick="navBtn(1)" class="nav-btn">
+                            <svg
+                                viewBox="0 0 48 48"
+                                xmlns="http://www.w3.org/2000/svg"
+                                height="3em"
+                                width="3em"
+                            >
+                                <path
+                                    fill="currentColor"
+                                    d="M9 22.5q-1.25 0-2.125-.875T6 19.5V9q0-1.25.875-2.125T9 6h10.5q1.25 0 2.125.875T22.5 9v10.5q0 1.25-.875 2.125T19.5 22.5ZM9 42q-1.25 0-2.125-.875T6 39V28.5q0-1.25.875-2.125T9 25.5h10.5q1.25 0 2.125.875T22.5 28.5V39q0 1.25-.875 2.125T19.5 42Zm19.5-19.5q-1.25 0-2.125-.875T25.5 19.5V9q0-1.25.875-2.125T28.5 6H39q1.25 0 2.125.875T42 9v10.5q0 1.25-.875 2.125T39 22.5Zm0 19.5q-1.25 0-2.125-.875T25.5 39V28.5q0-1.25.875-2.125T28.5 25.5H39q1.25 0 2.125.875T42 28.5V39q0 1.25-.875 2.125T39 42Z"
+                                />
+                            </svg>
+                            Category</span
+                        >
+                        <span onclick="navBtn(2)" class="nav-btn">
+                            <svg
+                                viewBox="0 0 48 48"
+                                xmlns="http://www.w3.org/2000/svg"
+                                height="3em"
+                                width="3em"
+                            >
+                                <path
+                                    fill="currentColor"
+                                    d="M13.05 36q-1.2 0-2.125-.9T10 33V15.95q0-.65.425-1.075.425-.425 1.075-.425.65 0 1.075.425Q13 15.3 13 15.95V33h21.15q.65 0 1.075.425.425.425.425 1.075 0 .65-.425 1.075Q34.8 36 34.15 36ZM19 30q-1.2 0-2.1-.9-.9-.9-.9-2.1V9q0-1.2.9-2.1.9-.9 2.1-.9h22q1.2 0 2.1.9.9.9.9 2.1v18q0 1.2-.9 2.1-.9.9-2.1.9Zm0-3h22V12.1H19V27ZM7 42q-1.2 0-2.1-.9Q4 40.2 4 39V21.95q0-.65.425-1.075.425-.425 1.075-.425.65 0 1.075.425Q7 21.3 7 21.95V39h21.1q.65 0 1.075.425.425.425.425 1.075 0 .65-.425 1.075Q28.75 42 28.1 42Z"
+                                /></svg
+                            >Feed</span
+                        >
+                        <span onclick="navBtn(3)" class="nav-btn">
+                            <svg
+                                viewBox="0 0 48 48"
+                                xmlns="http://www.w3.org/2000/svg"
+                                height="3em"
+                                width="3em"
+                            >
+                                <path
+                                    fill="currentColor"
+                                    d="M11.1 35.25q3.15-2 6.225-3.025Q20.4 31.2 24 31.2q3.6 0 6.7 1.025t6.25 3.025q2.2-2.7 3.125-5.45Q41 27.05 41 24q0-7.25-4.875-12.125T24 7q-7.25 0-12.125 4.875T7 24q0 3.05.95 5.8t3.15 5.45ZM24 25.5q-2.9 0-4.875-1.975T17.15 18.65q0-2.9 1.975-4.875T24 11.8q2.9 0 4.875 1.975t1.975 4.875q0 2.9-1.975 4.875T24 25.5ZM24 44q-4.2 0-7.85-1.575-3.65-1.575-6.35-4.3Q7.1 35.4 5.55 31.75 4 28.1 4 23.95q0-4.1 1.575-7.75 1.575-3.65 4.3-6.35 2.725-2.7 6.375-4.275Q19.9 4 24.05 4q4.1 0 7.75 1.575 3.65 1.575 6.35 4.275 2.7 2.7 4.275 6.35Q44 19.85 44 24q0 4.1-1.575 7.75-1.575 3.65-4.275 6.375t-6.35 4.3Q28.15 44 24 44Z"
+                                />
+                            </svg>
+                            Account</span
+                        >
+                        <span onclick="navBtn(4)" class="nav-btn">
+                            <svg
+                                viewBox="0 0 48 48"
+                                xmlns="http://www.w3.org/2000/svg"
+                                height="3em"
+                                width="3em"
+                            >
+                                <path
+                                    fill="currentColor"
+                                    d="M24.2 35.65q.8 0 1.35-.55t.55-1.35q0-.8-.55-1.35t-1.35-.55q-.8 0-1.35.55t-.55 1.35q0 .8.55 1.35t1.35.55ZM24.15 15q1.7 0 2.75.925t1.05 2.375q0 1-.6 1.975-.6.975-1.95 2.125-1.3 1.15-2.075 2.425-.775 1.275-.775 2.325 0 .55.425.875.425.325.975.325.6 0 1-.4t.5-1q.15-1 .675-1.775.525-.775 1.625-1.675 1.5-1.25 2.175-2.5.675-1.25.675-2.8 0-2.65-1.725-4.25t-4.575-1.6q-1.9 0-3.5.75t-2.65 2.2q-.4.55-.325 1.125.075.575.475.875.55.4 1.175.25.625-.15 1.025-.7.65-.9 1.575-1.375Q23 15 24.15 15ZM24 44q-4.2 0-7.85-1.525Q12.5 40.95 9.8 38.25q-2.7-2.7-4.25-6.35Q4 28.25 4 24q0-4.2 1.55-7.85Q7.1 12.5 9.8 9.8q2.7-2.7 6.35-4.25Q19.8 4 24 4q4.15 0 7.8 1.55 3.65 1.55 6.35 4.25 2.7 2.7 4.275 6.35Q44 19.8 44 24q0 4.25-1.575 7.9-1.575 3.65-4.275 6.35-2.7 2.7-6.35 4.225Q28.15 44 24 44Z"
+                                /></svg
+                            >Help</span
+                        >
+                    </nav>
+                </div>
+            </div>
+
+            <!-- signUp and login form -->
+            <div class="form-container">
+                <!-- logo -->
+                <img
+                    class="empviv-logo"
+                    src="https://firebasestorage.googleapis.com/v0/b/signup-bfcf8.appspot.com/o/Empire2%20Original%2FUntitled%20design_20240710_030124_0000.png?alt=media&token=e8741eb6-73dd-4894-b008-53c0ea569c5e"
+                    alt="Empviv"
+                />
+                <!-- logo -->
+
+                <!-- log in  -->
+                <div id="logcontainer">
+                    <!-- cut in -->
+                    <div class="container">
+                        <div class="heading">Sign In</div>
+                        <div action="" class="form">
+                            <input
+                                required=""
+                                class="input"
+                                type="email"
+                                name="email"
+                                id="loginEmail"
+                                placeholder="E-mail"
+                            />
+                            <input
+                                required=""
+                                class="input"
+                                type="password"
+                                name="password"
+                                id="loginPassword"
+                                placeholder="Password"
+                            />
+                            <span class="forgot-password" onclick="forgot()"
+                                ><a href="#">Forgot Password ?</a></span
+                            >
+                            <input
+                                onclick="login()"
+                                class="login-button"
+                                type="submit"
+                                value="Sign In"
+                            />
+                        </div>
+                        <div class="social-account-container"></div>
+                        <span class="agreement"
+                            ><a href="#">Learn user licence agreement</a></span
+                        >
+                    </div>
+                    <!-- cut out -->
+                    <lable class="register-lable">Don't have an Account?</lable>
+                    <button
+                        class="registerpage-btn"
+                        onclick="sign()"
+                        id="signUpForm"
+                    >
+                        Register
+                    </button>
+                </div>
+                <div id="signcontainer">
+                    <form class="signup-form">
+                        <h1 class="sign-header-lable">Sign Up</h1>
+
+                        <input
+                            type="text"
+                            id="userName"
+                            placeholder="Username"
+                            class="signup-input"
+                        />
+
+                        <input
+                            type="email"
+                            id="signup-email"
+                            placeholder="E-mail"
+                            class="signup-input"
+                        />
+
+                        <input
+                            type="password"
+                            id="signup-password"
+                            placeholder="Password"
+                            class="signup-input"
+                        />
+                        <button class="signup-btn" onclick="signUp()">
+                            Sign Up
+                        </button>
+                        <div class="log-and-sign-animation"></div>
+                    </form>
+                    <lable class="register-lable"
+                        >Already have an Account?</lable
+                    >
+                    <button
+                        class="registerpage-btn"
+                        onclick="log()"
+                        id="switch"
+                    >
+                        Log In
+                    </button>
+                </div>
+            </div>
+
+            <!-- reset password -->
+            <div id="passwordForm" class="forgotContainer">
+                <form
+                    class="signup-form"
+                    action=""
+                    method="get"
+                    accept-charset="utf-8"
+                >
+                    <div class="back" onclick="back()">Go back</div>
+                    <lable class="sign-header-lable">Forgot Password </lable>
+                    <input
+                        id="resetEmail"
+                        type="email"
+                        placeholder="Reset Password"
+                        class="signup-input"
+                    />
+                    <button class="signup-btn" onclick="forgotPassword()">
+                        Send
+                    </button>
+                </form>
+            </div>
+            <!-- end of reset -->
+
+            <!-- address book  -->
+            <div class="adressbook-container">
+                <svg
+                    onclick="closeAddressInput()"
+                    viewBox="0 0 48 48"
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="3em"
+                    width="3em"
+                >
+                    <path
+                        fill="currentColor"
+                        d="M24 26.1 13.5 36.6q-.45.45-1.05.45-.6 0-1.05-.45-.45-.45-.45-1.05 0-.6.45-1.05L21.9 24 11.4 13.5q-.45-.45-.45-1.05 0-.6.45-1.05.45-.45 1.05-.45.6 0 1.05.45L24 21.9l10.5-10.5q.45-.45 1.05-.45.6 0 1.05.45.45.45.45 1.05 0 .6-.45 1.05L26.1 24l10.5 10.5q.45.45.45 1.05 0 .6-.45 1.05-.45.45-1.05.45-.6 0-1.05-.45Z"
+                    />
+                </svg>
+                <section class="container2">
+                    <header>Address Form</header>
+                    <form class="form" action="#">
+                        <div class="input-box">
+                            <label>Full Name</label>
+                            <input
+                                required=""
+                                placeholder="Enter full name"
+                                type="text"
+                                id="adrName"
+                            />
+                        </div>
+                        <div class="column">
+                            <div class="input-box">
+                                <label>Phone Number</label>
+                                <input
+                                    required=""
+                                    placeholder="Enter phone"
+                                    id="phone"
+                                    type="telephone"
+                                />
+                            </div>
+                            <div class="input-box">
+                                <label>Birth Date</label>
+                                <input
+                                    required=""
+                                    placeholder="Enter birth date"
+                                    type="date"
+                                    id="birthday"
+                                />
+                            </div>
+                        </div>
+                        <div class="gender-box">
+                            <label>Gender</label>
+                            <div class="gender-option">
+                                <div class="gender">
+                                    <input
+                                        checked=""
+                                        name="gender"
+                                        id="check-male"
+                                        type="radio"
+                                        value="Male"
+                                    />
+                                    <label for="check-male">Male</label>
+                                </div>
+                                <div class="gender">
+                                    <input
+                                        name="gender"
+                                        id="check-female"
+                                        type="radio"
+                                        value="Female"
+                                    />
+                                    <label for="check-female">Female</label>
+                                </div>
+                                <div class="gender">
+                                    <input
+                                        name="gender"
+                                        id="check-other"
+                                        type="radio"
+                                        value="Other"
+                                    />
+                                    <label for="check-other"
+                                        >Prefer not to say</label
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-box address">
+                            <label>Address</label>
+                            <input
+                                required=""
+                                placeholder="Enter street address"
+                                type="text"
+                                id="location"
+                            />
+                            <div class="column">
+                                <div class="select-box">
+                                    <select>
+                                        <option hidden="">Country</option>
+                                        <option>GHANA</option>
+                                    </select>
+                                </div>
+                                <input
+                                    required=""
+                                    placeholder="Enter your city"
+                                    id="city"
+                                    type="text"
+                                />
+                            </div>
+                        </div>
+                        <button onclick="submitaddress()">Submit</button>
+                    </form>
+                </section>
+            </div>
+            <!-- end of form -->
+            <!-- make order page  -->
+        </div>
+        <script src="popscript.js"></script>
+        <script src="firebase.js"></script>
+    </body>
+</html>
