@@ -29,7 +29,7 @@ body {
     right: 50px;
 }
 .toggle {
-    background-color: transparent;
+    background-color: var(--background-color);
     width: 35px;
     height: 35px;
     border-radius: 50%;
@@ -801,7 +801,8 @@ body {
     border-radius: 10px;
     padding: 0.5px 3px;
     font-size: 11px;
-    color: var(--background-color);
+    color: #fff;
+    border: 1px solid #fff;
 }
 .cart-menu {
     z-index: 50;
@@ -1645,6 +1646,14 @@ body {
     display: flex;
     flex-direction: row-reverse;
     border-top: 5px solid var(--load-color3);
+}
+#details {
+    font-weight: 300;
+    margin: 5px;
+}
+.product-page-size {
+    color: var(--nav-color);
+    margin: 10px;
 }
 .product-page-cart-btn {
     width: 70%;

@@ -881,6 +881,10 @@ function openProductPage(
     description
 ) {
     const pPage = document.querySelector(".p-page");
+    const descript = document.createElement("p");
+    const addInfo = document.createElement("p");
+    const details = document.getElementById("details");
+    details.innerHTML = "";
     pPage.style.display = "flex";
     pPage.style.position = "fixed";
     pPage.scrollTop = 0;
@@ -911,6 +915,7 @@ function openProductPage(
             </div>
             <div class="product-page-id">Product ID: ${id}</div>
             <div class="product-page-seller">Seller: ${seller}</div>
+            <div class="product-page-size">Size: ${productSize}</div>
             <div class="product-page-cart-box">
                 <button id="add-to-cart-btn" class="product-page-cart-btn">Add To Cart</button>
                 <button id="like" class="product-page-call-btn"><svg id="likeIt" viewBox="0 0 48 48"
@@ -924,6 +929,11 @@ function openProductPage(
             </div>
         </div>
     `;
+
+    descript.innerHTML = `${description}`;
+    addInfo.innerHTML = `${additionalInfo}`;
+    details.appendChild(descript);
+    details.appendChild(addInfo);
     const addToCartBtn = document.getElementById("add-to-cart-btn");
     addToCartBtn.addEventListener("click", () => {
         addCart(

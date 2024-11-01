@@ -17,11 +17,11 @@
     --cart-loader-back: #e9e9e973;
     --square-back: #e9e9e9d9;
     --line-back: #e9e9e9d9;
-    --top-bar: #000066;
-    --cart-btn: rgb(225, 226, 350);
+    --top-bar: #fff;
+    --cart-btn: #000066;
     --search-text: #000000;
-    --moon-sun: rgb(225, 226, 350);
-    --chat-sent: #000066;
+    --moon-sun: #000066;
+    --chat-sent: #17ff69;
     --chat-recieved: #dddddd;
     --message-timestamp: #838383;
     --cart-count: darkorange;
@@ -53,7 +53,7 @@
     --chat-sent: darkorange;
     --chat-recieved: #3b3b3b;
     --message-timestamp: #fff;
-    --cart-count: rgb(225, 226, 350);
+    --cart-count: #000066;
 }
 
 .loading-effect {
