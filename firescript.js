@@ -93,6 +93,7 @@ auth.onAuthStateChanged(user => {
         chatSetUp();
         changeAccName();
         cart();
+        // checkLikedProducts();
         getUserAddress();
         catGros("Category/grocery", "groceryP");
         catGros("Category/computing", "computingP");
@@ -152,6 +153,7 @@ function closeerror() {
 
 // add firebase real time database to
 let db = firebase.database();
+const storage = firebase.storage();
 const fs = firebase.firestore(app);
 
 function openAccDelPage() {
@@ -329,7 +331,7 @@ function popular() {
                     <div class="top-picks-name">Seller: ${popular.seller}</div>
                     <div class="top-picks-id">ID: ${popular.identification}</div>
                 </div>
-                <button class="add-to-cart-btn">Add to Cart</button>
+                <button class="add-to-cart-btn" id="cart-btn-${popular.identification}">Add to Cart</button>
                 <div class="off-tag">-${discount}%</div>
             `;
 
@@ -352,22 +354,30 @@ function popular() {
                 });
 
             // Add event listener for adding to cart
-            productDiv
-                .querySelector(".add-to-cart-btn")
-                .addEventListener("click", function () {
-                    addCart(
-                        images, // Use the array of images
-                        popular.name,
-                        popular.sellingprice,
-                        popular.seller,
-                        popular.identification,
-                        popular.productSize,
-                        popular.color,
-                        popular.additionalInfo,
-                        popular.description,
-                        1 // Assuming quantity to be 1 for now
-                    );
-                });
+            const cartButton = productDiv.querySelector(".add-to-cart-btn");
+            cartButton.addEventListener("click", function () {
+                addCart(
+                    images[0], // Use the first image
+                    popular.name,
+                    popular.sellingprice,
+                    popular.costprice,
+                    popular.seller,
+                    popular.identification,
+                    popular.productSize,
+                    popular.color,
+                    popular.additionalInfo,
+                    popular.description,
+                    1 // Assuming quantity to be 1
+                );
+
+                // Add the class with animation
+                cartButton.classList.add("added-to-cart");
+                cartButton.innerText = "Added";
+                setTimeout(() => {
+                    cartButton.classList.remove("added-to-cart");
+                    cartButton.innerText = "Add to Cart";
+                }, 2000); // Remove the class after 2 seconds (adjust as needed)
+            });
 
             products.push(productDiv); // Store the product div
         });
@@ -461,23 +471,28 @@ function newArrivals() {
                     );
                 });
 
-            newProd
-                .querySelector(".add-to-cart-btn")
-                .addEventListener("click", function () {
-                    addCart(
-                        images, // Use the array of images
-                        newProduct.name,
-                        newProduct.sellingprice,
-                        newProduct.seller,
-                        newProduct.identification,
-                        newProduct.productSize || "",
-                        newProduct.color || "",
-                        newProduct.additionalInfo || "",
-                        newProduct.description || "",
-                        1 // Assuming quantity to be 1 for now
-                    );
-                });
-
+            const cartNbtn = newProd.querySelector(".add-to-cart-btn");
+            cartNbtn.addEventListener("click", function () {
+                addCart(
+                    images, // Use the array of images
+                    newProduct.name,
+                    newProduct.sellingprice,
+                    newProduct.costprice,
+                    newProduct.seller,
+                    newProduct.identification,
+                    newProduct.productSize || "",
+                    newProduct.color || "",
+                    newProduct.additionalInfo || "",
+                    newProduct.description || "",
+                    1 // Assuming quantity to be 1 for now
+                );
+                cartNbtn.classList.add("added-to-cart");
+                cartNbtn.innerText = "Added";
+                setTimeout(() => {
+                    cartNbtn.classList.remove("added-to-cart");
+                    cartNbtn.innerText = "Add to Cart";
+                }, 2000);
+            });
             newList.appendChild(newProd);
         });
     });
@@ -489,6 +504,7 @@ function addCart(
     image,
     product,
     price,
+    cp,
     seller,
     identification,
     productSize,
@@ -497,68 +513,51 @@ function addCart(
     description,
     quantity
 ) {
-    let user = firebase.auth().currentUser.uid;
-    const cartRef = db.ref(`USER/CART/${user}/${identification}`); // Use identification as the key
+    let user = firebase.auth().currentUser;
+    if (!user) {
+        console.error("User is not authenticated.");
+        return;
+    }
+
+    const userId = user.uid;
+    const cartRef = db.ref(`USER/CART/${userId}/${identification}`); // Use identification as the key
     const buttonId = `cart-btn-${identification}`;
     const button = document.getElementById(buttonId);
 
-    cartRef.once("value").then(snapshot => {
-        if (snapshot.exists()) {
-            // Item already in cart, update quantity
-            const currentData = snapshot.val();
-            const newQuantity = (currentData.quantity || 0) + quantity;
-            cartRef.update({ quantity: newQuantity });
-        } else {
-            // New item, set initial values
-            cartRef.set({
-                image1: image,
-                product: product,
-                price: parseFloat(price),
-                seller: seller,
-                id: identification,
-                size: productSize,
-                color: color,
-                additionalInfo: additionalInfo,
-                description: description,
-                quantity: quantity
-            });
-        }
+    cartRef
+        .once("value")
+        .then(snapshot => {
+            if (snapshot.exists()) {
+                // Item already in cart, update quantity
+                const currentData = snapshot.val();
+                const newQuantity = (currentData.quantity || 0) + quantity;
+                cartRef.update({ quantity: newQuantity });
+            } else {
+                // New item, set initial values
+                cartRef.set({
+                    image1: image,
+                    product: product,
+                    price: parseFloat(price),
+                    costPrice: parseFloat(cp),
+                    seller: seller,
+                    id: identification,
+                    size: productSize,
+                    color: color,
+                    additionalInfo: additionalInfo,
+                    description: description,
+                    quantity: quantity
+                });
+            }
 
-        // Change button text to "Added"
-        if (button) {
-            button.innerText = "Added";
-        }
-
-        // Store the added product ID in local storage
-        let addedProducts =
-            JSON.parse(localStorage.getItem("addedProducts")) || [];
-        if (!addedProducts.includes(identification)) {
-            addedProducts.push(identification);
-            localStorage.setItem(
-                "addedProducts",
-                JSON.stringify(addedProducts)
-            );
-        }
-    });
+            // Add CSS class to button
+            if (button) {
+                button.classList.add("added-to-cart");
+            }
+        })
+        .catch(error => {
+            console.error("Error adding to cart:", error);
+        });
 }
-
-function updateCartButtonsFromLocalStorage() {
-    let addedProducts = JSON.parse(localStorage.getItem("addedProducts")) || [];
-
-    addedProducts.forEach(productId => {
-        const button = document.getElementById(`cart-btn-${productId}`);
-        if (button) {
-            button.innerText = "Added";
-        }
-    });
-}
-
-// Call this function when the page loads
-document.addEventListener(
-    "DOMContentLoaded",
-    updateCartButtonsFromLocalStorage
-);
-
 function like(
     image,
     product,
@@ -572,31 +571,53 @@ function like(
     description,
     quantity
 ) {
-    let user = firebase.auth().currentUser.uid;
-    const cartRef = db.ref(`USER/LIKE/${user}/${product}`);
+    const user = firebase.auth().currentUser;
+    if (!user) {
+        console.error("User is not authenticated.");
+        return;
+    }
 
-    cartRef.once("value").then(snapshot => {
-        if (snapshot.exists()) {
-            document.getElementById("likeIt").classList.add("like");
-        } else {
-            // New item, set initial values
-            cartRef.set({
-                image1: image,
-                product: product,
-                price: parseFloat(price),
-                costPrice: parseFloat(costPrice), // Convert price to integer before storing
-                seller: seller,
-                id: identification,
-                size: productSize,
-                color: color,
-                additionalInfo: additionalInfo,
-                description: description,
-                quantity: quantity
-            });
-        }
-    });
+    const userId = user.uid;
+    const cartRef = db.ref(`USER/LIKE/${userId}/${product}`);
+    const likeButton = document.getElementById("likeIt");
+
+    cartRef
+        .once("value")
+        .then(snapshot => {
+            if (snapshot.exists()) {
+                // If the product is already liked, remove it and toggle the class
+                cartRef.remove().then(() => {
+                    console.log("Product removed from likes.");
+                    likeButton.classList.remove("liked"); // Remove CSS class when unliked
+                });
+            } else {
+                // Add the product to the likes and toggle the class
+                cartRef
+                    .set({
+                        image1: image,
+                        product: product,
+                        price: parseFloat(price),
+                        costPrice: parseFloat(costPrice),
+                        seller: seller,
+                        id: identification,
+                        size: productSize,
+                        color: color,
+                        additionalInfo: additionalInfo,
+                        description: description,
+                        quantity: quantity,
+                        status: "liked" // Use a string to represent the status
+                    })
+                    .then(() => {
+                        // alert("Product added to likes.");
+                        likeButton.classList.add("liked"); // Add CSS class when liked
+                    });
+            }
+        })
+        .catch(error => {
+            noteBox.style.display = "block";
+            notification.innerText = "Error updating likes:";
+        });
 }
-
 function count() {
     let user = firebase.auth().currentUser.uid;
     db.ref(`USER/CART/${user}`).on("value", function (snapshot) {
@@ -649,16 +670,22 @@ function closeAddressInput() {
 function getUserAddress() {
     let user = firebase.auth().currentUser.uid;
     db.ref(`USER/ADDRESS/${user}`).once("value", function (snapshot) {
+        const imageBox = document.querySelector(".user-image-box");
         const addrVal = snapshot.val();
+        let imageref = addrVal.userImage;
         document.querySelector(".address-container").innerHTML = `<div>
-        <div>Name: ${addrVal.username}</div>
-        <div>Email: ${addrVal.email}</div>
-        <div>Contact: ${addrVal.contact}</div>
-        <div>Location: ${addrVal.location}</div>
-        <div>Gender: ${addrVal.gender}</div>
-        <div>Birthday: ${addrVal.birthday}</div>
-        <div>City: ${addrVal.city}</div>
+        <div>Name: ${addrVal?.username || "Empty"}</div>
+        <div>Email: ${addrVal?.email || "Empty"}</div>
+        <div>Contact: ${addrVal?.contact || "Empty"}</div>
+        <div>Location: ${addrVal?.location || "Empty"}</div>
+        <div>Gender: ${addrVal?.gender || "Empty"}</div>
+        <div>Birthday: ${addrVal?.birthday || "Empty"}</div>
+        <div>City: ${addrVal?.city || "Empty"}</div>
         </div>`;
+        const image = document.createElement("img");
+        image.src = imageref;
+        image.classList = "user-img";
+        imageBox.appendChild(image);
     });
 }
 //
@@ -851,7 +878,7 @@ function order() {
 
             // Show notification and close the order page
             noteBox.style.display = "block";
-            notification.innerText = "Order Successful";
+            notification.innerText = "Order Made.";
             closeOrderPage();
         });
     });
@@ -882,9 +909,13 @@ function openProductPage(
 ) {
     const pPage = document.querySelector(".p-page");
     const descript = document.createElement("p");
+    const descriptHead = document.createElement("h2");
+    const addInfoHead = document.createElement("h4");
     const addInfo = document.createElement("p");
     const details = document.getElementById("details");
     details.innerHTML = "";
+    descriptHead.innerHTML = "PRODUCT DESCRIPTION";
+    addInfoHead.innerHTML = "ADDITIONAL INFORMATION";
     pPage.style.display = "flex";
     pPage.style.position = "fixed";
     pPage.scrollTop = 0;
@@ -932,14 +963,18 @@ function openProductPage(
 
     descript.innerHTML = `${description}`;
     addInfo.innerHTML = `${additionalInfo}`;
+    details.appendChild(descriptHead);
     details.appendChild(descript);
+    details.appendChild(addInfoHead);
     details.appendChild(addInfo);
+    // checkLikedProducts();
     const addToCartBtn = document.getElementById("add-to-cart-btn");
     addToCartBtn.addEventListener("click", () => {
         addCart(
             images,
             product,
             sp,
+            cp,
             seller,
             id,
             productSize,
@@ -948,6 +983,12 @@ function openProductPage(
             description,
             1 // Assuming quantity to be 1 for now
         );
+        addToCartBtn.classList.add("added-to-cart2");
+        addToCartBtn.innerText = "Added";
+        setTimeout(() => {
+            addToCartBtn.classList.remove("added-to-cart2");
+            addToCartBtn.innerText = "Add to Cart";
+        }, 2000);
     });
     document.getElementById("like").addEventListener("click", () => {
         like(
@@ -1064,6 +1105,7 @@ function displayFeedProducts(products) {
                 product.image1,
                 product.name,
                 product.sellingprice,
+                product.costprice,
                 product.seller,
                 product.identification,
                 product.productSize || "",
@@ -1072,6 +1114,12 @@ function displayFeedProducts(products) {
                 product.description || "",
                 1 // Assuming quantity to be 1
             );
+            addToCartBtn.classList.add("added-to-cart");
+            addToCartBtn.innerText = "Added";
+            setTimeout(() => {
+                addToCartBtn.classList.remove("added-to-cart");
+                addToCartBtn.innerText = "Add to Cart";
+            }, 2000);
         });
 
         productsDiv.appendChild(productDiv);
@@ -1240,23 +1288,28 @@ function searchProducts() {
                             }
                         );
 
-                        li.querySelector(".add-to-cart-btn").addEventListener(
-                            "click",
-                            function () {
-                                addCart(
-                                    images, // Use the array of images
-                                    product.name,
-                                    product.sellingprice,
-                                    product.seller,
-                                    product.identification,
-                                    product.productSize || "",
-                                    product.color || "",
-                                    product.additionalInfo || "",
-                                    product.description || "",
-                                    1 // Assuming quantity to be 1 for now
-                                );
-                            }
-                        );
+                        const cartBtn = li.querySelector(".add-to-cart-btn");
+                        cartBtn.addEventListener("click", function () {
+                            addCart(
+                                images, // Use the array of images
+                                product.name,
+                                product.sellingprice,
+                                product.costprice,
+                                product.seller,
+                                product.identification,
+                                product.productSize || "",
+                                product.color || "",
+                                product.additionalInfo || "",
+                                product.description || "",
+                                1 // Assuming quantity to be 1 for now
+                            );
+                            cartBtn.classList.add("added-to-cart");
+                            cartBtn.innerText = "Added";
+                            setTimeout(() => {
+                                cartBtn.classList.remove("added-to-cart");
+                                cartBtn.innerText = "Add to Cart";
+                            }, 2000);
+                        });
 
                         searchResults.appendChild(li);
                     }
@@ -1554,4 +1607,89 @@ function saveName() {
             noteBox.style.display = "block";
             (notification.innerText = "Error updating username: "), error;
         });
+}
+
+// get profile pic
+function addUserProfile() {
+    let user = firebase.auth().currentUser.uid;
+
+    if (!user) {
+        console.error("No user is logged in.");
+        return;
+    }
+
+    // Reference to user profile image input
+    const fileInput = document.getElementById("userProfileImage");
+
+    fileInput.addEventListener("change", function () {
+        const userImage = this.files[0];
+
+        if (userImage) {
+            // Generate a unique file name using the user's UID
+            const storageRef = firebase
+                .storage()
+                .ref(`userProfiles/${user}/${userImage.name}`);
+            noteBox.style.display = "block";
+            notification.innerText = "Storage read";
+
+            // Start the upload
+            const uploadTask = storageRef.put(userImage);
+            noteBox.style.display = "block";
+            notification.innerText = "Uploading";
+
+            // Monitor upload progress
+            uploadTask.on(
+                "state_changed",
+                snapshot => {
+                    const progress =
+                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    noteBox.style.display = "block";
+                    notification.innerText = "Upload is " + progress + "% done";
+                },
+                error => {
+                    noteBox.style.display = "block";
+                    notification.innerText = "Error during upload";
+                },
+                () => {
+                    // Get the download URL once upload is complete
+                    uploadTask.snapshot.ref
+                        .getDownloadURL()
+                        .then(downloadURL => {
+                            //
+                            // Update the user's profile image in Firebase Realtime Database
+                            firebase
+                                .database()
+                                .ref(`USER/ADDRESS/${user}`)
+                                .update({
+                                    userImage: downloadURL
+                                })
+                                .then(() => {
+                                    noteBox.style.display = "block";
+                                    notification.innerText =
+                                        "User profile image updated successfully.";
+
+                                    // Update the image in the DOM
+                                    db.ref(`USER/ADDRESS/${user}`).once(
+                                        "value",
+                                        function (snapshot) {
+                                            const imageBox =
+                                                document.querySelector(
+                                                    ".user-image-box"
+                                                );
+                                            const addrVal = snapshot.val();
+                                            let imageref = addrVal.userImage;
+                                            const image =
+                                                document.createElement("img");
+                                            image.src = imageref;
+                                            image.classList = "user-img";
+                                            imageBox.innerHTML = "";
+                                            imageBox.appendChild(image);
+                                        }
+                                    );
+                                });
+                        });
+                }
+            );
+        }
+    });
 }

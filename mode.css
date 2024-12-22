@@ -18,13 +18,15 @@
     --square-back: #e9e9e9d9;
     --line-back: #e9e9e9d9;
     --top-bar: #fff;
-    --cart-btn: #000066;
+    --cart-btn: #6e5bff;
+    --add-to-cart-btn: #e9e9e9d9;
     --search-text: #000000;
-    --moon-sun: #000066;
-    --chat-sent: #17ff69;
+    --moon-sun: #6e5bff;
+    --chat-sent: #6e5bff;
     --chat-recieved: #dddddd;
-    --message-timestamp: #838383;
+    --message-timestamp: #fff;
     --cart-count: darkorange;
+    --search-bar: #000066;
 }
 
 .dark-mode {
@@ -48,12 +50,14 @@
     --square-back: #0f0f0f;
     --line-back: #3a3a3a;
     --cart-btn: darkorange;
+    --add-to-cart-btn: #3a3a3a;
     --top-bar: #000000;
     --moon-sun: darkorange;
     --chat-sent: darkorange;
     --chat-recieved: #3b3b3b;
     --message-timestamp: #fff;
     --cart-count: #000066;
+    --search-bar: darkorange;
 }
 
 .loading-effect {

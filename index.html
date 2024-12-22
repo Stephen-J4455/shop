@@ -3,6 +3,12 @@
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta
+            http-equiv="Cache-Control"
+            content="no-store, no-cache, must-revalidate"
+        />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="0" />
+        <meta
             name="viewport"
             content="width=device-width,
         initial-scale=1.0
@@ -14,6 +20,7 @@
         <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-database.js"></script>
         <!-- firestore -->
         <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
+                <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-storage.js"></script>
         <!-- firestore  end-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <link rel="stylesheet" href="register.css" />
@@ -47,7 +54,7 @@
                     <div class="delivery-fee-name">
                         Delivery Fee:
                         <ul id="deliveryPrice">
-                            Ghc 30.00
+                            Varies according to place.
                         </ul>
                     </div>
 
@@ -252,8 +259,14 @@
                     </div>
                 </div>
                 <div class="delivery-box">
-                    <span>Ghc 30 for delivery from pick up station</span>
-                    <span>Ghc 45 for door to door delivery </span>
+                    <span
+                        >For delivery from pick up station, lesser fee is
+                        charged</span
+                    >
+                    <span
+                        >For door to door delivery,price varies according to
+                        place</span
+                    >
                     <span
                         >Note: Prices are for deliveries in the GREATER ACCRA
                         REGION</span
@@ -568,7 +581,7 @@
                     <!-- Feed Page  -->
                     <!-- Feed Page  -->
                     <div class="navPage" id="feedpage">
-                        <h2 class="feed-head">Feeds</h2>
+
                         <div id="feedList" class="feed-list">
                             <div id="loaderGrid">
                                 <div class="loader-item">
@@ -686,22 +699,45 @@
                         <div id="account-header">
                             <h2>Account</h2>
                             <div class="userProfile">
-                                <svg
-                                    class="w-6 h-6 text-gray-800 dark:text-white"
-                                    aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="40"
-                                    height="40"
-                                    fill="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        fill-rule="evenodd"
-                                        d="M12 20a7.966 7.966 0 0 1-5.002-1.756l.002.001v-.683c0-1.794 1.492-3.25 3.333-3.25h3.334c1.84 0 3.333 1.456 3.333 3.25v.683A7.966 7.966 0 0 1 12 20ZM2 12C2 6.477 6.477 2 12 2s10 4.477 10 10c0 5.5-4.44 9.963-9.932 10h-.138C6.438 21.962 2 17.5 2 12Zm10-5c-1.84 0-3.333 1.455-3.333 3.25S10.159 13.5 12 13.5c1.84 0 3.333-1.455 3.333-3.25S13.841 7 12 7Z"
-                                        clip-rule="evenodd"
+                                <div class="user-image-box"></div>
+                                <div class="add-profile-image">
+                                    <input
+                                        type="file"
+                                        onclick="addUserProfile()"
+                                        name=""
+                                        id="userProfileImage"
+                                        value=""
+                                        accept="image/*"
                                     />
-                                </svg>
-
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        class="upload-svg"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <g
+                                            id="SVGRepo_bgCarrier"
+                                            stroke-width="0"
+                                        ></g>
+                                        <g
+                                            id="SVGRepo_tracerCarrier"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        ></g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <g id="Edit / Add_Plus">
+                                                <path
+                                                    id="Vector"
+                                                    d="M6 12H12M12 12H18M12 12V18M12 12V6"
+                                                    stroke="#fff"
+                                                    stroke-width="2"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                ></path>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                </div>
                                 <div id="userBox">
                                     <div id="userID"></div>
                                     <div id="userEmail"></div>
@@ -709,7 +745,9 @@
                             </div>
                         </div>
                         <div class="empire-container">
-                            <h4 class="empire-header">My J Account.</h4>
+                            <h4 class="empire-header">
+                                My Cloud Shop Account.
+                            </h4>
                             <ul class="account-list">
                                 <span onclick="openChat()" class="li"
                                     ><svg
@@ -1011,7 +1049,7 @@
                             </button>
                         </div>
                     </div>
-                    <!-- my J set pages -->
+                    <!-- my Cloud Shop set pages -->
                     <div class="acc-page">
                         <svg
                             onclick="closeInbox()"
@@ -1041,7 +1079,7 @@
                                 Information
                             </h3>
                             <p>
-                                At J Import , we prioritize prompt and
+                                At Cloud Shop Import , we prioritize prompt and
                                 reliable delivery to ensure a seamless shopping
                                 experience for our customers. Here’s what you
                                 can expect:
@@ -1126,8 +1164,9 @@
                                 customer care specialists provide personalized
                                 support to ensure your needs are met.Experience
                                 the best in delivery and customer care with
-                                J. We’re dedicated to making your shopping
-                                experience as smooth and enjoyable as possible.
+                                Cloud Shop. We’re dedicated to making your
+                                shopping experience as smooth and enjoyable as
+                                possible.
                             </p>
                         </div>
                     </div>
@@ -1209,9 +1248,9 @@
             <div class="form-container">
                 <!-- logo -->
                 <img
-                    class="J-logo"
-                    src="https://firebasestorage.googleapis.com/v0/b/signup-bfcf8.appspot.com/o/Empire2%20Original%2FUntitled%20design_20240710_030124_0000.png?alt=media&token=e8741eb6-73dd-4894-b008-53c0ea569c5e"
-                    alt="J"
+                    class="cloud-shop-logo"
+                    src="https://firebasestorage.googleapis.com/v0/b/signup-bfcf8.appspot.com/o/Empire2%20Original%2F20241115_110958_0000.png?alt=media&token=9106405d-9814-4a14-ad48-7f1f4e79a605"
+                    alt="Cloud Shop"
                 />
                 <!-- logo -->
 
@@ -1219,7 +1258,7 @@
                 <div id="logcontainer">
                     <!-- cut in -->
                     <div class="container">
-                        <div class="heading">Sign In</div>
+                        <div class="heading">Log In</div>
                         <div action="" class="form">
                             <input
                                 required=""
