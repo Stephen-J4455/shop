@@ -160,7 +160,6 @@ window.addEventListener("load", function () {
     if (localStorage.getItem("cartPage")) {
         document.querySelector(".cart-menu").style.display = "flex";
     }
-    
 });
 // theme
 // Load the theme from local storage on page load
@@ -198,6 +197,7 @@ toggleSwitch.addEventListener("change", function () {
         });
         localStorage.setItem("theme", "light");
     }
+        location.reload();
 });
 
 function removeDarkMode() {

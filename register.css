@@ -15,7 +15,8 @@ body {
     scroll-behavior: smooth;
     width: 100%;
     user-select: none;
-    background-color: var(--background-color);
+    /* background-color: var(--background-color); */
+
     color: var(--text-color);
 }
 .my-body {
@@ -323,7 +324,7 @@ body {
     width: 100%;
     position: relative;
     z-index: 1;
-    background-color: #000066;
+    background-color: var(--nav-select);
     color: aliceblue;
 }
 #account-header h2 {
@@ -367,7 +368,7 @@ body {
     width: 100%;
 }
 .empire-header {
-    background-color: #000066;
+    background-color: var(--nav-select);
     padding: 10px 10px;
     color: white;
     font-size: 20px;
@@ -1060,7 +1061,7 @@ body {
     background-color: rgb(190, 190, 190);
 }
 .cat-active {
-    border-right: 10px solid darkorange;
+    border-right: 10px solid var(--nav-select);
     transition: 0.3s ease;
     color: white;
     font-weight: 900;
@@ -1367,7 +1368,7 @@ body {
     animation: flyerloader 0.5s infinite linear;
 }
 #popularList {
-    border: 2px solid var(--cart-btn);
+    border: 2px solid var(--nav-select);
     border-radius: 10px;
     padding: 1px 1px;
     display: -webkit-flex;
