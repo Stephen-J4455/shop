@@ -41,6 +41,38 @@ const automobileP = document.getElementById("automobileP");
 const butt = document.getElementById("grocery");
 // category end
 
+function monitorNetworkStatus() {
+    // Flag to check if this is the first check
+    let isFirstCheck = true;
+
+    // Function to handle network changes
+    function updateNetworkStatus() {
+        if (isFirstCheck) {
+            console.log(
+                `Initial status: ${navigator.onLine ? "Online" : "Offline"}`
+            );
+            isFirstCheck = false;
+        } else {
+            if (navigator.onLine) {
+                noteBox.style.display = "block";
+                notification.innerText = "Back Online";
+            } else {
+                noteBox.style.display = "block";
+                notification.innerText = "You are Currently Offline!";
+            }
+        }
+    }
+
+    // Add event listeners for online and offline events
+    window.addEventListener("online", updateNetworkStatus);
+    window.addEventListener("offline", updateNetworkStatus);
+
+    // Initial silent status check
+    updateNetworkStatus();
+}
+
+// Call the function to start monitoring
+monitorNetworkStatus();
 // chat
 function chatSetUp() {
     let firstUser = firebase.auth().currentUser.uid;
@@ -197,7 +229,7 @@ toggleSwitch.addEventListener("change", function () {
         });
         localStorage.setItem("theme", "light");
     }
-        location.reload();
+    location.reload();
 });
 
 function removeDarkMode() {
