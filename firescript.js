@@ -239,61 +239,90 @@ function changeAccoutPassword() {
 }
 
 function topPicks() {
-    db.ref("TopPicks/products").on("value", function (snapshot) {
-        let topPickListHTML = "";
+    // Define all the database references you want to fetch products from
+    const dbRefs = [
+        db.ref("TopPicks/products")
+    ];
 
-        snapshot.forEach(function (childSnapshot) {
-            let topPick = childSnapshot.val();
-            let images = [];
-
-            // Collect all images from the product path
-            for (let key in topPick) {
-                if (key.startsWith("image")) {
-                    images.push(topPick[key]);
-                }
-            }
-
-            // Assign a unique ID to each product card
-            const uniqueId = topPick.identification;
-
-            topPickListHTML += `
-                <div id="top-pick-${uniqueId}" class="top-prod">
-                    <img class="top-img" src="${images[0]}" height="140px" width="110px"/>
-                    <div class="top-picks-name">${topPick.name}</div>
-                </div>
-            `;
-
-            // Add an event listener to each product after rendering
-            setTimeout(() => {
-                const productElement = document.getElementById(
-                    `top-pick-${uniqueId}`
-                );
-                productElement.addEventListener("click", () => {
-                    openProductPage(
-                        images,
-                        topPick.name,
-                        topPick.sellingprice,
-                        topPick.costprice,
-                        topPick.identification,
-                        topPick.seller,
-                        topPick.productSize || "",
-                        topPick.color || "",
-                        topPick.additionalInfo || "",
-                        topPick.description || ""
-                    );
+    // Fetch data from all references
+    Promise.all(
+        dbRefs.map(ref =>
+            ref.once("value").then(snapshot => {
+                let products = [];
+                snapshot.forEach(childSnapshot => {
+                    products.push(childSnapshot.val());
                 });
-            }, 0);
-        });
+                return products;
+            })
+        )
+    )
+        .then(results => {
+            // Combine all products into a single array
+            let allProducts = results.flat();
 
-        document.getElementById("topPickList").innerHTML = topPickListHTML;
+            // Shuffle the combined array randomly
+            allProducts = allProducts.sort(() => Math.random() - 0.5);
 
-        let loaders = document.querySelectorAll(".top-picks-loader");
-        loaders.forEach(function (loader) {
-            loader.style.display = "none";
+            // Limit to a maximum of 16 products
+            let selectedProducts = allProducts.slice(0, 12);
+
+            // Generate the HTML for the selected products
+            let topPickListHTML = "";
+            selectedProducts.forEach(function (topPick) {
+                let images = [];
+
+                // Collect all images from the product path
+                for (let key in topPick) {
+                    if (key.startsWith("image")) {
+                        images.push(topPick[key]);
+                    }
+                }
+
+                // Assign a unique ID to each product card
+                const uniqueId = topPick.identification;
+
+                topPickListHTML += `
+                    <div id="top-pick-${uniqueId}" class="top-prod">
+                        <img class="top-img" src="${images[0]}" height="140px" width="110px"/>
+                        <div class="top-picks-name">${topPick.name}</div>
+                    </div>
+                `;
+
+                // Add an event listener to each product after rendering
+                setTimeout(() => {
+                    const productElement = document.getElementById(
+                        `top-pick-${uniqueId}`
+                    );
+                    productElement.addEventListener("click", () => {
+                        openProductPage(
+                            images,
+                            topPick.name,
+                            topPick.sellingprice,
+                            topPick.costprice,
+                            topPick.identification,
+                            topPick.seller,
+                            topPick.productSize || "",
+                            topPick.color || "",
+                            topPick.additionalInfo || "",
+                            topPick.description || ""
+                        );
+                    });
+                }, 0);
+            });
+
+            // Update the DOM with the generated HTML
+            document.getElementById("topPickList").innerHTML = topPickListHTML;
+
+            // Hide the loader after loading products
+            let loaders = document.querySelectorAll(".top-picks-loader");
+            loaders.forEach(function (loader) {
+                loader.style.display = "none";
+            });
+        })
+        .catch(error => {
+            console.error("Error fetching products:", error);
         });
-    });
 }
-
 topPicks();
 
 function popular() {

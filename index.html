@@ -20,7 +20,7 @@
         <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-database.js"></script>
         <!-- firestore -->
         <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
-                <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-storage.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-storage.js"></script>
         <!-- firestore  end-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <link rel="stylesheet" href="register.css" />
@@ -581,7 +581,6 @@
                     <!-- Feed Page  -->
                     <!-- Feed Page  -->
                     <div class="navPage" id="feedpage">
-
                         <div id="feedList" class="feed-list">
                             <div id="loaderGrid">
                                 <div class="loader-item">
@@ -1368,18 +1367,20 @@
 
             <!-- address book  -->
             <div class="adressbook-container">
-                <svg
-                    onclick="closeAddressInput()"
-                    viewBox="0 0 48 48"
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="3em"
-                    width="3em"
-                >
-                    <path
-                        fill="currentColor"
-                        d="M24 26.1 13.5 36.6q-.45.45-1.05.45-.6 0-1.05-.45-.45-.45-.45-1.05 0-.6.45-1.05L21.9 24 11.4 13.5q-.45-.45-.45-1.05 0-.6.45-1.05.45-.45 1.05-.45.6 0 1.05.45L24 21.9l10.5-10.5q.45-.45 1.05-.45.6 0 1.05.45.45.45.45 1.05 0 .6-.45 1.05L26.1 24l10.5 10.5q.45.45.45 1.05 0 .6-.45 1.05-.45.45-1.05.45-.6 0-1.05-.45Z"
-                    />
-                </svg>
+                <div class="address-page-bar">
+                    <svg
+                        onclick="closeAddressInput()"
+                        viewBox="0 0 48 48"
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="1.5em"
+                        width="1.5em"
+                    >
+                        <path
+                            fill="currentColor"
+                            d="M24 26.1 13.5 36.6q-.45.45-1.05.45-.6 0-1.05-.45-.45-.45-.45-1.05 0-.6.45-1.05L21.9 24 11.4 13.5q-.45-.45-.45-1.05 0-.6.45-1.05.45-.45 1.05-.45.6 0 1.05.45L24 21.9l10.5-10.5q.45-.45 1.05-.45.6 0 1.05.45.45.45.45 1.05 0 .6-.45 1.05L26.1 24l10.5 10.5q.45.45.45 1.05 0 .6-.45 1.05-.45.45-1.05.45-.6 0-1.05-.45Z"
+                        />
+                    </svg>
+                </div>
                 <section class="container2">
                     <header>Address Form</header>
                     <form class="form" action="#">
@@ -1442,7 +1443,7 @@
                                         value="Other"
                                     />
                                     <label for="check-other"
-                                        >Prefer not to say</label
+                                        >Other</label
                                     >
                                 </div>
                             </div>

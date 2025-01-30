@@ -732,13 +732,13 @@ body {
 }
 
 .added-to-cart {
-    background-color: green;
-    color: white;
+    background-color: var(--nav-select);
+    color: var(--text-color);
     border: none;
     cursor: not-allowed;
 }
 .added-to-cart2 {
-    background-color: #6e5bff;
+    background-color: var(--nav-select);
     color: white;
     border: none;
     cursor: not-allowed;
@@ -1004,7 +1004,7 @@ body {
     border: none;
     width: 100%;
     height: 7%;
-    background-color: #000066;
+    background-color: var(--nav-select);
     color: aliceblue;
     outline: none;
     font-weight: 500;
@@ -1156,15 +1156,16 @@ body {
 /* notification */
 .notification {
     display: none;
-    height: fit-content;
-    min-height: 200px;
+    height: auto;
+    /* min-height: 200px; */
     width: 300px;
     position: fixed;
     top: 250px;
     left: 25px;
     font-weight: 300;
     /* backdrop-filter: blur(3px); */
-    background-color: #fff;
+    background-color: var(--background-color);
+    color: var(--text-color);
     z-index: 999;
     border: none;
     border-radius: 15px;
@@ -1178,15 +1179,26 @@ body {
 }
 .notification-info {
     color: var(--text-color);
+    background-color: var(--background-color);
+    width: 300px; /* Sets a fixed width for the container */
+    height: auto; /* Ensures the height adapts to the content */
+    min-height: 60px;
     font-size: 18px;
-    font-weight: 900;
-    text-align: center;
+    font-weight: 600;
+    display: inline-block; /* Aligns inline elements if needed */
+    overflow-wrap: break-word; /* Breaks long text to prevent overflow */
+    word-wrap: break-word; /* Compatibility for older browsers */
+    box-sizing: border-box; /* Includes padding in width/height calculations */
+    text-align: center; /* Centers text horizontally */
+    vertical-align: top; /* Aligns the block properly in inline contexts */
 }
 .close-note {
     color: rgb(4, 12, 48);
-    position: absolute;
+    position: relative;
+    width: 20px;
     bottom: 0;
-    right: 0;
+    font-weight: 900;
+    left: 120px;
     margin: 10px 10px;
     padding: 10px 15px;
     border-radius: 7px;
@@ -1442,18 +1454,21 @@ body {
     flex-direction: column;
     overflow-y: scroll;
 }
+.address-page-bar {
+}
 .container2 {
-    position: absolute;
+    position: relative;
     padding: 40px 0px;
     margin-left: 10px;
     margin-top: 70px;
     width: 330px;
-    border: 5px solid rgb(170, 170, 170);
     overflow: hidden;
-    background-color: var(--background-color);
     color: var(--text-color);
-    border-radius: 25px;
-    box-shadow: 0 0 10px rgb(170, 170, 170);
+    background-color: var(--background-color);
+    border-radius: 40px;
+
+    border: 5px solid var(--nav-select);
+    box-shadow: rgb(4, 12, 120, 0.805) 0px 30px 30px -20px;
 }
 
 .container2 header {
@@ -1508,16 +1523,18 @@ body {
 .form :where(.gender-option, .gender) {
     display: flex;
     align-items: center;
-    column-gap: 10px;
-    flex-wrap: wrap;
+    flex-direction: row;
+    row-gap: 50px;
+    /* column-gap: 10px;
+    flex-wrap: wrap; */
 }
 
 .form .gender {
-    column-gap: 15px;
+    column-gap: 0px;
 }
 
 .gender input {
-    accent-color: rgb(2, 12, 200);
+    accent-color: var(--nav-select);
 }
 
 .form :where(.gender input, .gender label) {
@@ -1525,7 +1542,7 @@ body {
 }
 
 .gender label {
-    color: #000;
+    color: var(--text-color);
 }
 
 .address :where(input, .select-box) {
@@ -1537,7 +1554,7 @@ body {
     width: 100%;
     outline: none;
     border: none;
-    color: #808080;
+    color: var(--text-color);
     font-size: 1rem;
     background: transparent;
 }
@@ -1545,7 +1562,7 @@ body {
 .form button {
     height: 40px;
     width: 96%;
-    color: #000;
+    color: #fff;
     font-size: 1rem;
     font-weight: 400;
     margin-top: 25px;
@@ -1553,7 +1570,7 @@ body {
     border-radius: 6px;
     cursor: none;
     transition: all 0.2s ease;
-    background: rgb(175, 170, 222);
+    background: var(--nav-select);
 }
 
 .form button:hover {
@@ -1668,7 +1685,8 @@ body {
     scroll-behavior: smooth;
     transition: scroll-snap-align 3s;
     height: 100%;
-    width: 360px;
+    max-height: 400px;
+    width: fit-content;
 }
 .product-page-name {
     position: relative;
@@ -1727,7 +1745,7 @@ body {
     outline: none;
     font-weight: 500;
     color: var(--text-color);
-    /* background-color: var(--background-color); */
+    background-color: var(--background-color);
 }
 .product-page-off {
     position: relative;
@@ -1765,7 +1783,7 @@ body {
     outline: none;
     font-weight: 500;
     color: var(--background-color);
-    background-color: var(--text-color);
+    background-color: var(--nav-color);
 }
 .product-page-call-btn:hover {
     background-color:;
