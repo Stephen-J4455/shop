@@ -229,7 +229,7 @@ toggleSwitch.addEventListener("change", function () {
         });
         localStorage.setItem("theme", "light");
     }
-    location.reload();
+    
 });
 
 function removeDarkMode() {
