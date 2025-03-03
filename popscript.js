@@ -174,7 +174,7 @@ function forgot() {
 }
 function back() {
   signupForm.style.display = "none";
-  loginForm.style.display = "block";
+  loginForm.style.display = "flex";
   reset.style.display = "none";
 }
 
@@ -220,7 +220,6 @@ toggleSwitch.addEventListener("change", function () {
     });
     localStorage.setItem("theme", "light");
   }
-  location.reload();
 });
 
 function removeDarkMode() {
