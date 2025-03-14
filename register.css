@@ -892,6 +892,7 @@ body {
   width: 100%;
   gap: 5px;
   padding-bottom: 5px;
+  height: 100%;
 }
 
 .cartItem-div {
@@ -971,9 +972,11 @@ body {
 }
 
 .empty-cart {
-  position: relative;
-  left: 35%;
-  padding: 50px 0px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: fit-content;
 }
 .like {
   color: darkorange;
